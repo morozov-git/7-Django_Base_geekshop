@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from products.views import index
 from products.views import products
+# from django.urls import include
 
-urlpatterns = [
+urlpatterns = (
     path('admin/', admin.site.urls),
+    path('index/', index, name='main'),
     path('', index, name='index'),
-    path('index', index, name='index'),
-    path('products', products, name='products'),
+    path('products/', products, name='products'),
 
-]
+    # path('main', index, name='main'),
+)
