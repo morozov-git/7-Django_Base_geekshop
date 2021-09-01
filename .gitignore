@@ -3,3 +3,4 @@
 /.idea/
 /db.sqlite3
 /test.html
+/products/templates/test.html
