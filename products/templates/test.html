@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1> {{ description }}</h1>
+    <p> {{ user }}</p>
+    <p>{{ test }}</p>
+    {% for product in prodicts %}
+        <p>
+        {{ product.name }} <br>
+        {{ product.price }}</p>
+    {% endfor %}
+   {% if promotion %}
+    {% for product in prodicts %}
+        <p>
+        {{ product.name }}" - sale!" <br>
+        <p class="sale">{{ product.price }}</p></p>
+    {% endfor %}
+    {% endif %}
+
+
+</body>
+    <script>
+        "use strict"
+        let price = document.querySelectorAll(".sale");
+        let discount = 25;
+        price.forEach(function(price){
+            price.innerText = price.innerText - (price.innerText/100)*discount;
+        });
+
+    </script>
+
+</html>
