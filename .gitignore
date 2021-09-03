@@ -5,3 +5,5 @@
 /products/templates/test.html
 /products/templates/products_(before_base).html
 /static/js/current_date_time.js
+/products/views_test.py
+/geekshop/urls_test.py
