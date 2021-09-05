@@ -1,8 +1,12 @@
 from django.shortcuts import render
-import json
 
-with open("static/products.json", "r", encoding="utf-8") as goods:
-	products_list = json.load(goods)
+import json
+from products.models import Product, ProductsCategory
+
+
+# with open("static/products.json", "r", encoding="utf-8") as goods:
+# 	products_list = json.load(goods)
+products_list = Product.objects.all()
 
 
 # Create your views here.
