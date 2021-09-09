@@ -51,7 +51,3 @@ def register(request):
 def logout(request):
 	auth.logout(request)
 	return HttpResponseRedirect(reverse('index'))
-
-
-# def admin(request):
-# 	return HttpResponseRedirect(reverse('admin'))
