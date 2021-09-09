@@ -18,7 +18,7 @@ from products.views import products
 
 from django.conf import settings
 from django.conf.urls.static import static
-from users.views import login, register
+from users.views import login, register, logout #, admin
 
 app_name = "users"
 
@@ -27,5 +27,7 @@ app_name = "users"
 urlpatterns = [
     path('login/', login, name='login'),
     path('register/', register, name='register'),
+    path('logout/', logout, name='logout')
+    # path('admin/', admin, name='admin')
 ]
 
