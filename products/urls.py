@@ -22,8 +22,10 @@ from django.conf.urls.static import static
 app_name = "products"
 
 
+
 urlpatterns = [
     # path('products/', products, name='products'),
     path('', products, name='index'),
+    path('<int:pk>/', products, name='category')
 ]
 
