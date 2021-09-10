@@ -20,15 +20,15 @@ def login(request):
 				return HttpResponseRedirect(reverse('index'))
 		else:
 			print(form.errors)
-			return HttpResponseRedirect(reverse('users:login'))
+			# return HttpResponseRedirect(reverse('users:login'))
 	else:
 		form = UserLoginForm()
-		context = {
-			'title': 'GeekShop - Авторизация',
-			'form': form
-		}
+	context = {
+		'title': 'GeekShop - Авторизация',
+		'form': form
+	}
 
-		return render(request, 'users/login.html', context)
+	return render(request, 'users/login.html', context)
 
 
 def register(request):
