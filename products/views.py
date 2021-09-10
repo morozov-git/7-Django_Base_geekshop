@@ -17,10 +17,10 @@ def index(request):
 
 def products(request, cat_id=0):
 	if cat_id == 0:
-		print(cat_id)
+		# print(cat_id)
 		products_list = Product.objects.all()
 	else:
-		print(cat_id)
+		# print(cat_id)
 		products_list = Product.objects.filter(category_id=cat_id)
 
 
