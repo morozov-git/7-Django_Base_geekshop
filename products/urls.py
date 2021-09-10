@@ -26,6 +26,6 @@ app_name = "products"
 urlpatterns = [
     # path('products/', products, name='products'),
     path('', products, name='index'),
-    path('<int:pk>/', products, name='category')
+    path('<int:cat_id>/', products, name='category')
 ]
 

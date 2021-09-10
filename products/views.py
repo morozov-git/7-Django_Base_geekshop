@@ -5,7 +5,7 @@ from products.models import Product, ProductsCategory
 
 # with open("static/products.json", "r", encoding="utf-8") as goods:
 # 	products_list = json.load(goods)
-products_list = Product.objects.all()
+# products_list = Product.objects.all()
 categories_list = ProductsCategory.objects.all()
 
 
@@ -15,14 +15,21 @@ def index(request):
 	return render(request, "index.html", context)
 
 
-def products(request, pk=None):
-	# def products(request, pk=None):
+def products(request, cat_id=0):
+	if cat_id == 0:
+		print(cat_id)
+		products_list = Product.objects.all()
+	else:
+		print(cat_id)
+		products_list = Product.objects.filter(category_id=cat_id)
+
+
 	context = {
 		"title": "geek shop catalog",
 		"products_list": products_list,
 		"categories_list": categories_list
 	}
-	print(pk)
+
 	return render(request, "products.html", context)
 
 # Предварительная настройка - добавить эти параметры в функцию, чтобы избежать ошибок при

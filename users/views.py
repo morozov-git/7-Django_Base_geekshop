@@ -16,6 +16,7 @@ def login(request):
 			user = auth.authenticate(username=username, password=password)
 			if user and user.is_active:
 				auth.login(request, user)
+				test = form.errors
 				return HttpResponseRedirect(reverse('index'))
 		else:
 			print(form.errors)
@@ -31,23 +32,28 @@ def login(request):
 
 
 def register(request):
+	form = UserRegisterForm()
 	if request.method == 'POST':
 		form = UserRegisterForm(data=request.POST)
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect(reverse('users:login'))
-		else:
-			print(form.errors)
-			return HttpResponseRedirect(reverse('users:register'))
-	else:
-		form = UserRegisterForm()
-		context = {
-			'title': 'GeekShop - Регистрация',
-			'form': form
-		}
-		return render(request, 'users/register.html', context)
+		# else:
+		# 	print(form.errors)
+		# 	return HttpResponseRedirect(reverse('users:register'))
+		# else:
+			#form = UserRegisterForm()
+	context = {
+		'title': 'GeekShop - Регистрация',
+		'form': form
+	}
+	return render(request, 'users/register.html', context)
 
 
 def logout(request):
 	auth.logout(request)
+	return HttpResponseRedirect(reverse('index'))
+
+
+def edit(request):
 	return HttpResponseRedirect(reverse('index'))
