@@ -1,5 +1,8 @@
+{% extends "base.html" %}
 {% load static %}
 
+
+{% block head %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +18,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"
             crossorigin="anonymous"></script>
 </head>
+{% endblock %}
+
+{% block content %}
 <body class="bg-primary">
 <div id="layoutAuthentication">
     <div id="layoutAuthentication_content">
@@ -22,7 +28,7 @@
             <div class="container">
                 <div class="row justify-content-center">
 
-                    {% block content %}
+                    {% block user-content %}
 
                     {% endblock %}
 
@@ -36,4 +42,5 @@
         crossorigin="anonymous"></script>
 <script src="{% static '/js/auth-admin.js' %}"></script>
 </body>
+{% endblock %}
 </html>
