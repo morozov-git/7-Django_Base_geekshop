@@ -58,3 +58,11 @@ def logout(request):
 
 def edit(request):
 	return HttpResponseRedirect(reverse('index'))
+
+
+def profile(request):
+	context = {
+		'title': 'GeekShop - Профиль',
+		#'form': form
+	}
+	return render(request, 'users/profile.html', context)
