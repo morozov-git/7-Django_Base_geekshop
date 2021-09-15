@@ -11,7 +11,7 @@ categories_list = ProductsCategory.objects.all()
 
 # Create your views here.
 def index(request):
-	context = {"title": "geek shop"}
+	context = {"title": "geekshop"}
 	return render(request, "index.html", context)
 
 
@@ -25,7 +25,7 @@ def products(request, cat_id=0):
 
 
 	context = {
-		"title": "geek shop catalog",
+		"title": "geekshop - Каталог",
 		"products_list": products_list,
 		"categories_list": categories_list
 	}
