@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 import json
 from products.models import Product, ProductsCategory
+from django.contrib.auth.decorators import login_required
 
 # with open("static/products.json", "r", encoding="utf-8") as goods:
 # 	products_list = json.load(goods)
