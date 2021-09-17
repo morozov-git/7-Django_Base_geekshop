@@ -6,6 +6,7 @@ from products.models import Product
 from baskets.models import Basket
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
 def baskets_add(request, id):
 	product = Product.objects.get(id=id)
@@ -24,3 +25,12 @@ def baskets_add(request, id):
 def basket_remove(request, id):
 	Basket.objects.get(id=id).delete()
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def baskets_show(request):
+	context = {
+		'title': 'GeekShop - Корзина',
+		# 'form': form,
+		'baskets': Basket.objects.filter(user=request.user),
+	}
+	return render(request, 'baskets/only_baskets.html', context)

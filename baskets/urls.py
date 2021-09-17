@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from baskets.views import baskets_add, basket_remove
+from baskets.views import baskets_add, basket_remove, baskets_show
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -25,6 +25,7 @@ app_name = "baskets"
 
 urlpatterns = [
     path('baskets_add/<int:id>', baskets_add, name='baskets_add'),
-    path('delet e/<int:id>', basket_remove, name='basket_remove'),
+    path('delete/<int:id>', basket_remove, name='basket_remove'),
+    path('baskets', baskets_show, name='baskets_show'),
 ]
 
