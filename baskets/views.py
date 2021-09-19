@@ -26,7 +26,6 @@ def baskets_add(request, id):
 		context = {'baskets': baskets}
 		result_icon = render_to_string('baskets/baskets_icon.html', context)
 		return JsonResponse({
-			# 'result': result,
 			'result_icon': result_icon
 			})
 

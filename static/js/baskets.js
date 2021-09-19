@@ -14,6 +14,7 @@ window.onload = function () {
         });
     // Event.preventDefault();
     })
+
     $('.product_list').on('click', 'button[class="btn btn-outline-success"]', function (){
         let but_href = event.target;
         // console.log(but_href);
