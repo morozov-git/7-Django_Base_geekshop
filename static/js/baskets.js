@@ -24,7 +24,6 @@ window.onload = function () {
             success: function (data){
                 $('.basket_icon').html(data.result_icon)
             },
-        //
         });
     })
 
