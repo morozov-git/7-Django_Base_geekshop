@@ -52,14 +52,9 @@
                             <i class="fas fa-user-circle"></i>
                         </a>
                     </li>
-                        {% if baskets %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'baskets:baskets_show'%}">
-                                    <i class="fas fa-shopping-basket"></i>
-                                    <span class="badge badge-secondary badge-pill">{{ baskets.0.total_quantity }}</span>
-                                </a>
-                            </li>
-                        {% endif %}
+
+                    {% include 'baskets/baskets_icon.html' %}
+
                         {% if user.is_staff %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'index' %}admin">admin
@@ -107,7 +102,7 @@
 
 <!-- FontAwesome script -->
 <script src="{% static 'vendor/fontawesome/fontawesome-icons.js' %}" crossorigin="anonymous"></script>
-
+<script src={% static 'js/baskets.js' %}></script>
 </body>
 
 </html>
