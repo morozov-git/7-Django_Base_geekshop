@@ -13,22 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from baskets.views import baskets_add, basket_remove, baskets_show, basket_edit
+
 from django.conf import settings
 from django.conf.urls.static import static
 
-from products.views import index, products
+app_name = "baskets"
+
+
 
 urlpatterns = [
-	path('admin/', admin.site.urls),
-	path('', index, name='index'),
-	path('products/', include('products.urls', namespace='products')),
-	path('users/', include('users.urls', namespace='users')),
-	path('baskets/', include('baskets.urls', namespace='baskets')),
-	# path('products/', products, name='products'),
-
+    path('baskets_add/<int:id>', baskets_add, name='baskets_add'),
+    path('delete/<int:id>', basket_remove, name='basket_remove'),
+    path('baskets', baskets_show, name='baskets_show'),
+    path('edit/<int:id>/<int:quantity>', basket_edit, name='basket_edit'),
 ]
 
-if settings.DEBUG:
-	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
