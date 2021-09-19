@@ -1,8 +1,8 @@
 window.onload = function () {
     $('.basket_list').on('click', 'input[type="number"]', function (){
         let t_href = event.target;
-        // console.log(t_href);
-        // console.log(t_href.value);
+        console.log(t_href);
+        console.log(t_href.value);
 
         $.ajax({
             url : '/baskets/edit/' + t_href.name + '/' + t_href.value,
@@ -13,6 +13,19 @@ window.onload = function () {
 
         });
     // Event.preventDefault();
+    })
+    $('.product_list').on('click', 'button[class="btn btn-outline-success"]', function (){
+        let but_href = event.target;
+        console.log(but_href);
+        console.log(but_href.name);
+
+        $.ajax({
+            url : '/baskets/baskets_add/' + but_href.name,
+            success: function (data){
+                $('.basket_icon').html(data.result_icon)
+            },
+        //
+        });
     })
 
 }

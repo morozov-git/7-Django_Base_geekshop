@@ -21,7 +21,16 @@ def baskets_add(request, id):
 		baskets = baskets.first()
 		baskets.quantity += 1
 		baskets.save()
-		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+		# return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+		baskets = Basket.objects.filter(user=request.user)
+		context = {'baskets': baskets}
+		result_icon = render_to_string('baskets/baskets_icon.html', context)
+		return JsonResponse({
+			# 'result': result,
+			'result_icon': result_icon
+			})
+
+
 
 @login_required
 def basket_remove(request, id):
