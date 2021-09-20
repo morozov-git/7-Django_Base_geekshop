@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from admins.views import index, admin_users, admin_users_create, admin_users_update, admin_users_delete, admin_users_not_active
+from admins.views import index, admin_users, admin_users_create, admin_users_update, admin_users_delete, admin_users_activation
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -29,6 +29,6 @@ urlpatterns = [
     path('user-create/', admin_users_create, name='admin_users_create'),
     path('user-update/<int:id>', admin_users_update, name='admin_users_update'),
     path('user-delete/<int:id>', admin_users_delete, name='admin_users_delete'),
-    path('user-not_active/<int:id>', admin_users_not_active, name='admin_users_not_active'),
+    path('user-activate/<int:id>', admin_users_activation, name='admin_users_activation'),
 ]
 

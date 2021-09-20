@@ -53,7 +53,11 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div  style="margin-top: 23px;">
-                                <a class="btn btn-danger btn-block" href="{% url 'admins:admin_users_not_active' users_select.id %}">Отключить</a>
+                                {% if users_select.is_active %}
+                                    <a class="btn btn-danger btn-block" href="{% url 'admins:admin_users_activation' users_select.id %}">Отключить</a>
+                                {% else %}
+                                    <a class="btn btn-success btn-block" href="{% url 'admins:admin_users_activation' users_select.id %}">Включить</a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-lg-6">
