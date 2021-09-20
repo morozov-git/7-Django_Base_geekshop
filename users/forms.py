@@ -16,10 +16,11 @@ class UserProfileForm(UserChangeForm):
 		fields = ('username', 'email', 'first_name', 'last_name', 'image')
 
 	def clean_image(self):
-		data = self.cleaned_data['image']
-		if data.size > 1050000:
-			raise forms.ValidationError("Слишком большой файл! Выберите файл меньше 1МБ.")
-		return data
+		if self.cleaned_data['image']:
+			data = self.cleaned_data['image']
+			if data.size > 1050000:
+				raise forms.ValidationError("Слишком большой файл! Выберите файл меньше 1МБ.")
+			return data
 
 class UserLoginForm(AuthenticationForm):
 	username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control  py-4',

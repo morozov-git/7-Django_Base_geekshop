@@ -55,9 +55,9 @@
 
                     {% include 'baskets/baskets_icon.html' %}
 
-                        {% if user.is_staff %}
+                        {% if user.is_staff or user.is_superuser %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'index' %}admin">admin
+                                <a class="nav-link" href="{% url 'admins:index' %}">admin
                                     <i class="fas fa-users-cog"></i>
                                 </a>
                             </li>

@@ -14,19 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from baskets.views import baskets_add, basket_remove, baskets_show, basket_edit
+from admins.views import index, admin_users, admin_users_create, admin_users_update, admin_users_delete, admin_users_not_active
 
 from django.conf import settings
 from django.conf.urls.static import static
 
-app_name = "admint"
+app_name = "admins"
 
 
 
 urlpatterns = [
-    path('baskets_add/<int:id>', baskets_add, name='baskets_add'),
-    path('delete/<int:id>', basket_remove, name='basket_remove'),
-    path('baskets', baskets_show, name='baskets_show'),
-    path('edit/<int:id>/<int:quantity>', basket_edit, name='basket_edit'),
+    path('', index, name='index'),
+    path('users/', admin_users, name='admin_users'),
+    path('user-create/', admin_users_create, name='admin_users_create'),
+    path('user-update/<int:id>', admin_users_update, name='admin_users_update'),
+    path('user-delete/<int:id>', admin_users_delete, name='admin_users_delete'),
+    path('user-not_active/<int:id>', admin_users_not_active, name='admin_users_not_active'),
 ]
 
