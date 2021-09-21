@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from baskets.models import Basket
 
 import json
@@ -44,7 +44,7 @@ def products(request, cat_id=0, page=1):
 		# print(cat_id)
 		products_list = Product.objects.filter(category_id=cat_id)
 
-	paginator = Paginator(products_list, per_page=2)
+	paginator = Paginator(products_list, per_page=1)
 	try:
 		products_paginator = paginator.page(page)
 	except PageNotAnInteger:
@@ -57,6 +57,7 @@ def products(request, cat_id=0, page=1):
 		"title": "geekshop - Каталог",
 		"products_list": products_paginator,
 		# "products_list": products_list,
+		'cat_id': cat_id,
 		"categories_list": categories_list,
 		'baskets': baskets,
 	}
