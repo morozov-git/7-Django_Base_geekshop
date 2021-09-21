@@ -37,7 +37,7 @@
                                 </tfoot>
                                 <tbody>
 
-                                {% for user in users %}
+                                {% for user in object_list %} {# Для FBV заменить object_list на users #}
                                     <tr>
                                         <td><a href="{% url 'admins:admin_users_update' user.id %}" style="color: dodgerblue">{{ user.username }}</a></td>
                                         <td>{{ user.first_name }}</td>
