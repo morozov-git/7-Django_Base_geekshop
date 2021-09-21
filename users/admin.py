@@ -7,7 +7,7 @@ from baskets.admin import BasketAdmin
 # admin.site.register(User)
 
 
-# @admin.register(User)
-# class UserAdmin(admin.TabularInline):
-# 	model = Basket
-# 	inlines = (BasketAdmin, )
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+	model = Basket
+	inlines = (BasketAdmin, )

@@ -5,10 +5,11 @@ from baskets.models import Basket
 
 
 
-@admin.register(Basket)
-class BasketAdmin(admin.ModelAdmin):
-
-	fields = ('user', 'product', ('price', 'quantity'), 'category', 'created_timestamp', 'update_timestamp')
+# @admin.register(Basket)
+class BasketAdmin(admin.TabularInline):
+	model = Basket
+	fields = ('product', 'quantity', 'created_timestamp', 'update_timestamp')
 	readonly_fields = ('created_timestamp', 'update_timestamp')
+	extra = 0
 	# ordering = ('name', 'price')
 	# search_fields = ('name', 'description')
