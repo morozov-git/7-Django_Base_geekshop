@@ -62,6 +62,7 @@ class UserUpdateView(UpdateView):
 	def dispatch(self, request, *args, **kwargs):
 		return super(UserUpdateView, self).dispatch(request, *args, **kwargs)
 
+
 class UserDeleteView(DeleteView):
 	model = User
 	template_name = 'admins/admin-users-update-delete.html'
@@ -73,14 +74,14 @@ class UserDeleteView(DeleteView):
 		return super(UserDeleteView, self).dispatch(request, *args, **kwargs)
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def admin_users_activation(request, id):
-	user = User.objects.get(id=id)
-	if user.is_active:
-		user.is_active = False
-		user.save()
-		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-	else:
-		user.is_active = True
-		user.save()
-		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+class UserActivateView(UserDeleteView):
+	def delete(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.is_active:
+			self.object.is_active = False
+			self.object.save()
+		else:
+			self.object.is_active = True
+			self.object.save()
+		return HttpResponseRedirect(self.get_success_url())
+

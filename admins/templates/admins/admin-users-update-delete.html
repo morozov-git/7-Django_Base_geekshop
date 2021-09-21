@@ -54,9 +54,15 @@
                         <div class="col-lg-6">
                             <div  style="margin-top: 23px;">
                                 {% if user.is_active %}
-                                    <a class="btn btn-danger btn-block" href="{% url 'admins:admin_users_activation' user.id %}">Отключить</a>
+                                    <form action="{% url 'admins:admin_users_activation' user.id %}" method="post">
+                                        {% csrf_token %}
+                                        <input class="btn btn-danger btn-block" type="submit" value="Отключить">
+                                    </form>
                                 {% else %}
-                                    <a class="btn btn-success btn-block" href="{% url 'admins:admin_users_activation' user.id %}">Включить</a>
+                                    <form action="{% url 'admins:admin_users_activation' user.id %}" method="post">
+                                        {% csrf_token %}
+                                        <input class="btn btn-success btn-block" type="submit" value="Включить">
+                                    </form>
                                 {% endif %}
                             </div>
                         </div>

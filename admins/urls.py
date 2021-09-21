@@ -14,8 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from admins.views import index, UserListView, UserCreteView, UserUpdateView, UserDeleteView, admin_users_activation
-#admin_users, admin_users_create, admin_users_update, admin_users_delete
+from admins.views import index, UserListView, UserCreteView, UserUpdateView, UserDeleteView, UserActivateView
+#admin_users, admin_users_create, admin_users_update, admin_users_delete, admin_users_activation
 
 
 from django.conf import settings
@@ -31,10 +31,11 @@ urlpatterns = [
     path('user-create/', UserCreteView.as_view(), name='admin_users_create'), # адрес для CBV
     path('user-update/<int:pk>', UserUpdateView.as_view(), name='admin_users_update'),  # адрес для CBV
     path('user-delete/<int:pk>', UserDeleteView.as_view(), name='admin_users_delete'),  # адрес для CBV
-    path('user-activate/<int:id>', admin_users_activation, name='admin_users_activation'),
+    path('user-activate/<int:pk>', UserActivateView.as_view(), name='admin_users_activation'),  # адрес для CBV
     # path('user-create/', admin_users_create, name='admin_users_create'), # адрес для FBV
     # path('user-update/<int:id>', admin_users_update, name='admin_users_update'),    # адрес для FBV
     # path('users/', admin_users, name='admin_users'),      # адрес для FBV
     # path('user-delete/<int:id>', admin_users_delete, name='admin_users_delete'),    # адрес для FBV
+    # path('user-activate/<int:id>', admin_users_activation, name='admin_users_activation'),  # адрес для FBV
 ]
 
