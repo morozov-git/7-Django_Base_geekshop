@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render, HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
@@ -31,55 +31,46 @@ class UserListView(ListView):
 		return super(UserListView, self).dispatch(request, *args, **kwargs)
 
 
-# @user_passes_test(lambda u: u.is_superuser)
-# def admin_users(request):
-# 	context = {
-# 		'users': User.objects.all()
-# 	}
-# 	return render(request, 'admins/admin-users-read.html', context)
+class UserCreteView(CreateView):
+	model = User
+	template_name = 'admins/admin-users-create.html'
+	form_class = UserAdminRegisterForm
+	success_url = reverse_lazy('admins:admin_users')
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super(UserCreteView, self).get_context_data(**kwargs)
+		context['title'] = 'GeekShop-UserCreate'
+		return context
+
+	@method_decorator(user_passes_test(lambda u: u.is_superuser))
+	def dispatch(self, request, *args, **kwargs):
+		return super(UserCreteView, self).dispatch(request, *args, **kwargs)
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def admin_users_create(request):
-	if request.method == 'POST':
-		form = UserAdminRegisterForm(data=request.POST, files=request.FILES)
-		if form.is_valid():
-			form.save()
-			messages.success(request, 'Пользователь успешно добавлен')
-			return HttpResponseRedirect(reverse('admins:admin_users'))
-	else:
-		form = UserAdminRegisterForm()
-	context = {
-		'title': 'GeekShop-UserCreate',
-		'form': form,
-	}
-	return render(request, 'admins/admin-users-create.html', context)
+class UserUpdateView(UpdateView):
+	model = User
+	template_name = 'admins/admin-users-update-delete.html'
+	form_class = UserAdminProfileForm
+	success_url = reverse_lazy('admins:admin_users')
 
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super(UserUpdateView, self).get_context_data(**kwargs)
+		context['title'] = 'GeekShop - UserUpdate'
+		return context
 
-@user_passes_test(lambda u: u.is_superuser)
-def admin_users_update(request, id):
-	users_select = User.objects.get(id=id)
-	if request.method == 'POST':
-		form = UserAdminProfileForm(data=request.POST, instance=users_select, files=request.FILES)
-		if form.is_valid():
-			form.save()
-			messages.success(request, 'Профиль пользователя успешно изменен')
-			return HttpResponseRedirect(reverse('admins:admin_users'))
-	else:
-		form = UserAdminProfileForm(instance=users_select)
-	context = {
-		'title': 'GeekShop - UserUpdate',
-		'form': form,
-		'users_select': users_select,
-	}
-	return render(request, 'admins/admin-users-update-delete.html', context)
+	@method_decorator(user_passes_test(lambda u: u.is_superuser))
+	def dispatch(self, request, *args, **kwargs):
+		return super(UserUpdateView, self).dispatch(request, *args, **kwargs)
 
+class UserDeleteView(DeleteView):
+	model = User
+	template_name = 'admins/admin-users-update-delete.html'
+	form_class = UserAdminProfileForm
+	success_url = reverse_lazy('admins:admin_users')
 
-@user_passes_test(lambda u: u.is_superuser)
-def admin_users_delete(request, id):
-	user = User.objects.get(id=id)
-	user.delete()
-	return HttpResponseRedirect(reverse('admins:admin_users'))
+	@method_decorator(user_passes_test(lambda u: u.is_superuser))
+	def dispatch(self, request, *args, **kwargs):
+		return super(UserDeleteView, self).dispatch(request, *args, **kwargs)
 
 
 @user_passes_test(lambda u: u.is_superuser)
