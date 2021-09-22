@@ -16,6 +16,7 @@ Including another URLconf
 from django.urls import path
 from admins.views import index, UserListView, UserCreteView, UserUpdateView, UserDeleteView, UserActivateView
 from admins.views import ProductsListView, ProductUpdateView, ProductCreateView, ProductDeleteView
+from admins.views import CategoryListView, CategoryUpdateView, CategoryCreateView, CategoryDeleteView
 # admin_users, admin_users_create, admin_users_update, admin_users_delete, admin_users_activation
 
 
@@ -35,6 +36,10 @@ urlpatterns = [
 	path('product-create/', ProductCreateView.as_view(), name='admin_product_create'),
 	path('product-update/<int:pk>', ProductUpdateView.as_view(), name='admin_product_update'),  # адрес для CBV
 	path('product-delete/<int:pk>', ProductDeleteView.as_view(), name='admin_product_delete'),  # адрес для CBV
+	path('category/', CategoryListView.as_view(), name='admin_category'),  # адрес для CBV
+	path('category-create/', CategoryCreateView.as_view(), name='admin_category_create'),
+	path('category-update/<int:pk>', CategoryUpdateView.as_view(), name='admin_category_update'),  # адрес для CBV
+	path('category-delete/<int:pk>', CategoryDeleteView.as_view(), name='admin_category_delete'),  # адрес для CBV
 	# path('product-update/<int:pk>', ProductUpdateView.as_view(), name='admin_product_update'),
 	# path('user-create/', admin_users_create, name='admin_users_create'), # адрес для FBV
 	# path('user-update/<int:id>', admin_users_update, name='admin_users_update'),    # адрес для FBV

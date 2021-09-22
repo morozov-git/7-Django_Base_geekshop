@@ -132,3 +132,52 @@ class ProductDeleteView(DeleteView):
 	@method_decorator(user_passes_test(lambda u: u.is_superuser))
 	def dispatch(self, request, *args, **kwargs):
 		return super(ProductDeleteView, self).dispatch(request, *args, **kwargs)
+
+
+class CategoryListView(ListView):
+	model = ProductsCategory
+	template_name = 'admins/admin-category-read.html'
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super(CategoryListView, self).get_context_data(**kwargs)
+		context['title'] = 'GeekShop-Category'
+		return context
+
+class CategoryUpdateView(UpdateView):
+	model = ProductsCategory
+	template_name = 'admins/admin-category-update-delete.html'
+	form_class = CategoryEditForm
+	success_url = reverse_lazy('admins:admin_category')
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super(CategoryUpdateView, self).get_context_data(**kwargs)
+		context['title'] = 'GeekShop - CategoryUpdate'
+		return context
+
+	@method_decorator(user_passes_test(lambda u: u.is_superuser))
+	def dispatch(self, request, *args, **kwargs):
+		return super(CategoryUpdateView, self).dispatch(request, *args, **kwargs)
+
+class CategoryCreateView(CreateView):
+	model = ProductsCategory
+	template_name = 'admins/admin-category-create.html'
+	form_class = CategoryEditForm
+	success_url = reverse_lazy('admins:admin_category')
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super(CategoryCreateView, self).get_context_data(**kwargs)
+		context['title'] = 'GeekShop - CategoryCreate'
+		return context
+
+	@method_decorator(user_passes_test(lambda u: u.is_superuser))
+	def dispatch(self, request, *args, **kwargs):
+		return super(CategoryCreateView, self).dispatch(request, *args, **kwargs)
+
+class CategoryDeleteView(DeleteView):
+	model = ProductsCategory
+	template_name = 'admins/admin-category-update-delete.html'
+	success_url = reverse_lazy('admins:admin_category')
+
+	@method_decorator(user_passes_test(lambda u: u.is_superuser))
+	def dispatch(self, request, *args, **kwargs):
+		return super(CategoryDeleteView, self).dispatch(request, *args, **kwargs)
