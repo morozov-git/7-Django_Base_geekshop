@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from users.models import User
 from products.models import Product, ProductsCategory
 from .forms import UserAdminRegisterForm, UserAdminProfileForm, ProductEditForm, CategoryEditForm
-
+from django.http import JsonResponse
 
 # Create your views here.
 @user_passes_test(lambda u: u.is_superuser)
