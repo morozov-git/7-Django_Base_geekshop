@@ -18,7 +18,7 @@ from products.views import products
 
 from django.conf import settings
 from django.conf.urls.static import static
-from users.views import login, register, logout, edit, profile
+from users.views import login, register, logout, edit, profile, verify
 
 app_name = "users"
 
@@ -30,5 +30,6 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('logout/', logout, name='logout'),
     path('edit/', edit, name='edit'),
+    path('verify/<str:email>/<str:activation_key>/', verify, name='verify'),
 ]
 
