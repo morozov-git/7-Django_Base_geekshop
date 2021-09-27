@@ -77,7 +77,7 @@ def profile(request):
 	context = {
 		'title': 'GeekShop - Профиль',
 		'form': form,
-		'baskets': Basket.objects.filter(user=request.user),
+		# 'baskets': Basket.objects.filter(user=request.user), # после подключения контекстного процессора можно отключить
 	}
 	return render(request, 'users/profile.html', context)
 
@@ -91,5 +91,17 @@ def send_verify_link(user):
 
 
 def verify(request, email, activation_key):
-	# def verify(request, email, activation_key):
-	pass
+	try:
+		user = User.objects.get(email=email)
+		if user and user.activation_key == activation_key and not user.is_activation_key_expired():
+			user.activation_key = ''
+			user.activation_key_expires = None
+			user.is_active = True
+			user.save()
+			auth.login(request, user)
+		return render(request, 'users/verification.html')
+	except Exception as e:
+		print(f'error activation user : {e.args}')
+		return HttpResponseRedirect(reverse('index'))
+
+

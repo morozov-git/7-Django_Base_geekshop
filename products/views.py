@@ -28,7 +28,7 @@ def index(request):
 	baskets = basket_icon(request)
 	context = {
 		"title": "geekshop",
-		'baskets': baskets,
+		# 'baskets': baskets, # после подключения контекстного процессора можно отключить
 	}
 	return render(request, "index.html", context)
 
@@ -59,7 +59,7 @@ def products(request, cat_id=0, page=1):
 		# "products_list": products_list,
 		'cat_id': cat_id,
 		"categories_list": categories_list,
-		'baskets': baskets,
+		# 'baskets': baskets, # после подключения контекстного процессора можно отключить
 	}
 
 	return render(request, "products.html", context)
