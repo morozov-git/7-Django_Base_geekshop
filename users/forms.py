@@ -4,6 +4,8 @@ import random
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 
 from django import forms
+
+import users
 from users.models import User
 
 
@@ -25,6 +27,7 @@ class UserProfileForm(UserChangeForm):
 			if data.size > 1050000:
 				raise forms.ValidationError("Слишком большой файл! Выберите файл меньше 1МБ.")
 			return data
+
 
 	def __init__(self, *args, **kwargs):
 		super(UserProfileForm, self).__init__(*args, **kwargs)
@@ -78,6 +81,13 @@ class UserRegisterForm(UserCreationForm):
 		self.fields['password2'].widget.attrs['placeholder'] = 'Подтвердите пароль'
 		for field_name, field in self.fields.items():
 			field.widget.attrs['class'] = 'form-control  py-4'
+
+	def clean_email(self):
+		if self.data['email']:
+			email = self.cleaned_data['email']
+			if User.objects.filter(email=email).exists():
+				raise forms.ValidationError("Пользователь с таким адресом электронной почты уже существует.")
+			return email
 
 	def save(self, commit=True):
 		user = super(UserRegisterForm, self).save()

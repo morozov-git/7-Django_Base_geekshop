@@ -41,7 +41,7 @@ def register(request):
 		if form.is_valid():
 			user = form.save()
 			if send_verify_link(user):
-				messages.success(request, 'Вы успешно зарегистрировались')
+				messages.success(request, 'Для завершения регистрации перейдите по ссылке в письме') #(request, 'Вы успешно зарегистрировались')
 			return HttpResponseRedirect(reverse('users:login'))
 	# else:
 	# 	print(form.errors)
