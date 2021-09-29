@@ -4,7 +4,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth, messages
 from django.urls import reverse
 from users.models import User
-from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from .forms import UserLoginForm, UserRegisterForm, UserProfileForm, UserProfileEditForm
 from baskets.models import Basket
 from django.contrib.auth.decorators import login_required
 
@@ -68,15 +68,18 @@ def edit(request):
 def profile(request):
 	if request.method == 'POST':
 		form = UserProfileForm(data=request.POST, instance=request.user, files=request.FILES)
-		if form.is_valid():
+		profile_form = UserProfileEditForm(data=request.POST, instance=request.user.userprofile)
+		if form.is_valid() and profile_form.is_valid():
 			form.save()
 			messages.success(request, 'Профиль успешно изменен')
 			return HttpResponseRedirect(reverse('users:profile'))
 	else:
+		profile_form = UserProfileEditForm(instance=request.user.userprofile)
 		form = UserProfileForm(instance=request.user)
 	context = {
 		'title': 'GeekShop - Профиль',
 		'form': form,
+		'profile_form': profile_form,
 		# 'baskets': Basket.objects.filter(user=request.user), # после подключения контекстного процессора можно отключить
 	}
 	return render(request, 'users/profile.html', context)
