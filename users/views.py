@@ -76,22 +76,23 @@ def profile(request):
 	else:
 		profile_form = UserProfileEditForm(instance=request.user.userprofile)
 		form = UserProfileForm(instance=request.user)
-		#
+
 		#нужно подменить ссылку на изобрыжение в профиле, если оно загружается со стороннего ресурса(содержит http://)
 		requestImageName = request.user.image.name
 		requestImageURL = request.user.image.url
-		formImageName = form['image'].initial.name #.imageName
-		formImageUrl = form['image'].initial.url #.imageURL
-		# if formImageName.find('toeWgqb0rjQ_pleM5Ii.jpg') != -1:
-		# 	# request.user.image.url = "Adidas-hoodie.png"
-		# 	form['image'].initial.url = "Adidas-hoodie.png"
-		# 	formImageUrl = form['image'].initial.url
-		# 	#imageURL = request.user.image.url
+		# formImageName = form['image'].initial.name #.imageName
+		# formImageUrl = form['image'].initial.url #.imageURL
+		# form_iamge = form['image']
+		profile_image = request.user.image.url
+		if profile_image.find('/media/http') != -1:
+			profile_image = request.user.image.name
+
 
 	context = {
 		'title': 'GeekShop - Профиль',
 		'form': form,
 		'profile_form': profile_form,
+		'profile_image': profile_image
 		# 'baskets': Basket.objects.filter(user=request.user), # после подключения контекстного процессора можно отключить
 	}
 	return render(request, 'users/profile.html', context)
