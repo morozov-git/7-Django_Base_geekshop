@@ -7,6 +7,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.timezone import now
+from requests import auth
 
 
 class User(AbstractUser):
@@ -35,6 +36,12 @@ class UserProfile(models.Model):
 	tagline = models.CharField(verbose_name='теги', max_length=128, blank=True)
 	about_me = models.TextField(verbose_name='о себе', blank=True)
 	gender = models.CharField(verbose_name='пол', choices=GENDER_CHOICES, max_length=4, blank=True)
+
+	@receiver(post_save, sender=User)
+	def create_user_profile(sender, instance, created, **kwargs):
+		if created:
+			UserProfile.objects.create(user=instance)
+			# auth.login(request, user)
 
 	@receiver(post_save, sender=User)
 	def save_user_profile(sender, instance, **kwargs):
