@@ -76,6 +76,18 @@ def profile(request):
 	else:
 		profile_form = UserProfileEditForm(instance=request.user.userprofile)
 		form = UserProfileForm(instance=request.user)
+		#
+		#нужно подменить ссылку на изобрыжение в профиле, если оно загружается со стороннего ресурса(содержит http://)
+		requestImageName = request.user.image.name
+		requestImageURL = request.user.image.url
+		formImageName = form['image'].initial.name #.imageName
+		formImageUrl = form['image'].initial.url #.imageURL
+		# if formImageName.find('toeWgqb0rjQ_pleM5Ii.jpg') != -1:
+		# 	# request.user.image.url = "Adidas-hoodie.png"
+		# 	form['image'].initial.url = "Adidas-hoodie.png"
+		# 	formImageUrl = form['image'].initial.url
+		# 	#imageURL = request.user.image.url
+
 	context = {
 		'title': 'GeekShop - Профиль',
 		'form': form,
@@ -101,7 +113,7 @@ def verify(request, email, activation_key):
 			user.activation_key_expires = None
 			user.is_active = True
 			user.save()
-			auth.login(request, user)
+			auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 		return render(request, 'users/verification.html')
 	except Exception as e:
 		print(f'error activation user : {e.args}')

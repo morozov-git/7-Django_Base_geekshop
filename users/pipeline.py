@@ -16,7 +16,7 @@ def save_user_profile(backend, user, response, *args, **kwargs):
 		'api.vk.com',
 		'/method/users.get',
 		None,
-		urlencode(OrderedDict(fields=','.join(('bdate', 'sex', 'about')),
+		urlencode(OrderedDict(fields=','.join(('bdate', 'sex', 'about', 'domain', 'has_photo', 'personal', 'photo_100')),
 							  access_token=response['access_token'],
 							  v='5.131')),
 		None
@@ -30,14 +30,29 @@ def save_user_profile(backend, user, response, *args, **kwargs):
 	if data['sex']:
 		user.userprofile.gender = UserProfile.MALE if data['sex'] == 2 else UserProfile.FEMALE
 
-	if data['about']:
-		user.userprofile.about_me = data['about']
+	# if data['about']:
+	# user_test_about = data['about']
+	user_about = f"{data['about']}\n"
+	user.userprofile.about_me = user_about
+	if data['personal']:
+		lang = str(*data['personal']['langs'])
+		user_personal = f"Язык: {lang}\n"\
+						f"Ссылка в VK: http://vk.com/{data['domain']}\n"
+		user.userprofile.about_me = user_personal + user_about
 
-	# bdate = datetime.strptime(data['bdate'],'%d.%m.%Y').date()
-	age = timezone.now().date().year #- bdate.year
-	user.age = age
-	if age < 18:
-		user.delete()
-		raise AuthForbidden('social_core.backends.vk.VKOAuth2')
-	user.save()
+	if data['has_photo'] == 1:
+		user.image = data['photo_100']
+
+	try: # Пробуем получить возраст из профиля VK, если его нет в ответе сервера, то заполняем дату поумолчанию
+		bdate = datetime.strptime(data['bdate'],'%d.%m.%Y').date()
+		age = timezone.now().date().year - bdate.year
+		user.age = ageт
+		# return user.age
+		if age < 18:
+			user.delete()
+			raise AuthForbidden('social_core.backends.vk.VKOAuth2')
+		user.save()
+		return user
+	except:
+		user.save()
 
