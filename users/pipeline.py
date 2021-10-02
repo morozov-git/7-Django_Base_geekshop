@@ -42,6 +42,14 @@ def save_user_profile(backend, user, response, *args, **kwargs):
 
 	if data['has_photo'] == 1:
 		user.image = data['photo_100']
+		# Для сохранения фото пользователя в /media/
+		# photo_link = data['photo_100']
+		# photo_response = requests.get(photo_link)
+		# path_photo = f'user_image/{user.pk}.jpg'
+		# with open(f'media/{path_photo}', 'wb') as photo:
+		# 	photo.write(photo_response.content)
+		# user.image = path_photo
+		# user.save()
 
 	try: # Пробуем получить возраст из профиля VK, если его нет в ответе сервера, то заполняем дату поумолчанию
 		bdate = datetime.strptime(data['bdate'],'%d.%m.%Y').date()
