@@ -1,11 +1,12 @@
 from django.db import models
 from django.conf import settings
 from products.models import Product
+
+
 # Create your models here.
 
 
 class Order(models.Model):
-
 	FORMING = 'FM'
 	SEND_TO_PROCEED = 'STP'
 	PAID = 'PD'
@@ -37,8 +38,14 @@ class Order(models.Model):
 
 	def get_total_cost(self):
 		items = self.orderitems.select_related()
-		return sum(list(map(lambda x: x.get_product_cost(), items)))
+		return sum(list(map(lambda x: x.quantity * x.product.price, items)))
 
+	def delete(self, using=None, keep_parents=False):
+		for item in self.orderitems.select_related():
+			item.products.quantity += item.quantity
+			item.products.save()
+		self.is_active = False
+		self.save()
 
 
 class OrderItem(models.Model):

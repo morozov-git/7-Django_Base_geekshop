@@ -4,7 +4,8 @@ from django.forms import inlineformset_factory
 
 
 # Create your views here.
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
 from baskets.models import Basket
@@ -105,8 +106,17 @@ class OrderDelete(DeleteView):
 
 
 class OrderRead(DetailView):
-	pass
+	model = Order
+
+	def get_context_data(self, **kwargs):
+		context = super(OrderRead, self).get_context_data(**kwargs)
+		context['title'] = 'GeekShop|OrderShow'
+		return context
+
 
 
 def order_forming_complete(request, pk):
-	pass
+	order = get_object_or_404(Order, pk=pk)
+	order.status = order.SEND_TO_PROCEED
+	order.save()
+	return HttpResponseRedirect(reverse('orders:list'))
