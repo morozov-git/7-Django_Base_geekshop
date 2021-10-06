@@ -25,7 +25,7 @@ def basket_icon(request):
 
 
 def index(request):
-	baskets = basket_icon(request)
+	# baskets = basket_icon(request) # после подключения контекстного процессора можно отключить
 	context = {
 		"title": "geekshop",
 		# 'baskets': baskets, # после подключения контекстного процессора можно отключить
@@ -35,8 +35,7 @@ def index(request):
 
 def products(request, cat_id=0, page=1):
 	categories_list = ProductsCategory.objects.all()
-	baskets = basket_icon(request)
-
+	# baskets = basket_icon(request) # после подключения контекстного процессора можно отключить
 	if cat_id == 0:
 		# print(cat_id)
 		products_list = Product.objects.all()
@@ -51,7 +50,6 @@ def products(request, cat_id=0, page=1):
 		products_paginator = paginator.page(1)
 	except EmptyPage:
 		products_paginator = paginator.page(paginator.num_pages)
-
 
 	context = {
 		"title": "geekshop - Каталог",

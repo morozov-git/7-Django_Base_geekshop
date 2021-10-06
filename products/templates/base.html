@@ -2,58 +2,75 @@
 
 
 {% block head %}
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
+    <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <title>
-        {{ title|title }}
-    </title>
+        <title>
+            {{ title|title }}
+        </title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    {% block css %}
-    {% endblock %}
+        <!-- Bootstrap core CSS -->
+        <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        {% block css %}
+        {% endblock %}
 
 
-</head>
-{% endblock%}
+    </head>
+{% endblock %}
 
 <body>
 {% block navigatoin %}
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'index' %}">GeekShop</a>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">GeekShop</a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'products:index' %}">Каталог <i class="fas fa-shopping-bag"></i> </a>
-                </li>
-
-                {% if not user.is_authenticated %}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:login' %}">Войти <i class="fas fa-sign-in-alt"></i></a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:profile' %}">{{ user.username }}
-                            <i class="fas fa-user-circle"></i>
-                        </a>
+                        <a class="nav-link" href="{% url 'products:index' %}">Каталог <i
+                                class="fas fa-shopping-bag"></i> </a>
                     </li>
 
-                    {% include 'baskets/baskets_icon.html' %}
+                    {% if not user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:login' %}">Войти <i class="fas fa-sign-in-alt"></i></a>
+                        </li>
+                    {% else %}
+                        {#                    <li class="nav-item">#}
+                        {#                        <a class="nav-link" href="{% url 'users:profile' %}">{{ user.username }}#}
+                        {#                            <i class="fas fa-user-circle"></i>#}
+                        {#                        </a>#}
+                        {#                    </li>#}
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">
+                                    {{ user.username|default:'Пользователь' }}
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="nav-link text-dark" href="{% url 'users:profile' %}">Профиль</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" href="{% url 'orders:list' %}">Заказы</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        {% include 'baskets/baskets_icon.html' %}
 
                         {% if user.is_staff or user.is_superuser %}
                             <li class="nav-item">
@@ -62,21 +79,23 @@
                                 </a>
                             </li>
                         {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:logout' %}">Выйти <i
+                                    class="fas fa-sign-out-alt"></i></a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:logout' %}">Выйти <i class="fas fa-sign-out-alt"></i></a>
+                        <a class="nav-link" style="color: darkgray"><i class="far fa-calendar"
+                                                                       id="current_date_time_block"></i></a>
                     </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" style="color: darkgray"><i class="far fa-calendar" id="current_date_time_block"></i></a>
-                </li>
-{#                 <li class="nav-item">#}
-{#                     <a class="nav-link " style="color: darkgray" id="current_date_time_block"></a>#}
-{#                </li>#}
-            </ul>
+                    {#                 <li class="nav-item">#}
+                    {#                     <a class="nav-link " style="color: darkgray" id="current_date_time_block"></a>#}
+                    {#                </li>#}
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-{% endblock%}
+    </nav>
+{% endblock %}
 
 <!-- Page Content -->
 {% block content %}
@@ -84,13 +103,13 @@
 
 
 {% block footer %}
-<!-- Footer -->
-<footer class="py-5 bg-dark">
-    <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; GeekShop 2020</p>
-    </div>
-    <!-- /.container -->
-</footer>
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; GeekShop 2020</p>
+        </div>
+        <!-- /.container -->
+    </footer>
 {% endblock %}
 
 <!-- Date Script -->
