@@ -1,7 +1,7 @@
-
 from django.db import transaction
+from django.db.models.signals import pre_delete, pre_save
+from django.dispatch import receiver
 from django.forms import inlineformset_factory
-
 
 # Create your views here.
 from django.shortcuts import get_object_or_404, HttpResponseRedirect
@@ -15,12 +15,11 @@ from ordersapp.models import Order, OrderItem
 
 class OrderList(ListView):
 	model = Order
+
 	# fields = []
 	# success_url = reverse_lazy('orders:list')
 	def get_queryset(self):
 		return Order.objects.filter(user=self.request.user, is_active=True)
-
-
 
 
 class OrderCreate(CreateView):
@@ -65,9 +64,11 @@ class OrderCreate(CreateView):
 
 		return super().form_valid(form)
 
+
 class OrderUpdate(UpdateView):
 	model = Order
 	fields = []
+
 	# success_url = reverse_lazy('orders:list')
 
 	def get_context_data(self, **kwargs):
@@ -114,9 +115,25 @@ class OrderRead(DetailView):
 		return context
 
 
-
 def order_forming_complete(request, pk):
 	order = get_object_or_404(Order, pk=pk)
 	order.status = order.SEND_TO_PROCEED
 	order.save()
 	return HttpResponseRedirect(reverse('orders:list'))
+
+
+@receiver(pre_save, sender=Basket)
+@receiver(pre_save, sender=OrderItem)
+def product_quantity_update_delete(sender, instance, **kwargs):
+	if instance.pk:
+		instance.product.quantity -= instance.quantity - instance.get_item(int(instance.pk))
+	else:
+		instance.product.quantity -= instance.quantity
+	instance.product.save()
+
+
+@receiver(pre_delete, sender=Basket)
+@receiver(pre_delete, sender=OrderItem)
+def product_quantity_update_delete(sender, instance, **kwargs):
+	instance.product.quantity += instance.quantity
+	instance.product.save()

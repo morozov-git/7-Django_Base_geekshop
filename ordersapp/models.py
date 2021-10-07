@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+
+from baskets.models import Basket
 from products.models import Product
 
 
@@ -42,8 +44,8 @@ class Order(models.Model):
 
 	def delete(self, using=None, keep_parents=False):
 		for item in self.orderitems.select_related():
-			item.products.quantity += item.quantity
-			item.products.save()
+			item.product.quantity += item.quantity
+			item.product.save()
 		self.is_active = False
 		self.save()
 
@@ -58,3 +60,9 @@ class OrderItem(models.Model):
 
 	def get_product_cost(self):
 		return self.product.price * self.quantity
+
+	@staticmethod
+	def get_item(pk):
+		return Basket.objects.get(pk=pk).quantity
+
+
