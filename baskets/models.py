@@ -41,3 +41,21 @@ class Basket(models.Model):
 	def get_item(pk):
 		return Basket.objects.get(pk=pk).quantity
 
+	# def delete(self, *args, **kwargs):
+	# 	self.product.quantity += self.quantity
+	# 	self.product.save()
+	# 	super(Basket, self).delete(*args, **kwargs)
+	#
+	# def save(self, *args, **kwargs):
+	# 	if self.pk:
+	# 		a = self.get_item(int(self.pk))
+	# 		b = self.product.quantity
+	# 		c = self.quantity
+	# 		self.product.quantity -= self.quantity - self.get_item(int(self.pk))
+	# 		d = self.product.quantity
+	# 	else:
+	# 		self.product.quantity -= self.quantity
+	# 	self.product.save()
+	# 	super(Basket, self).save(*args, **kwargs)
+	# #	Если оставить включенным вместе с сигналами в orders/view, то будет вычитаться(в базе/на складе)
+	# # по два товара при каждом добовлении одного товара в карзину.
