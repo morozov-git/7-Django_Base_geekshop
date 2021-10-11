@@ -13,7 +13,10 @@ window.onload = function () {
     for (let i = 0; i < total_forms; i++) {
         _quantity = parseInt($('input[name=orderitems-' + i + '-quantity]').val());
         _price = parseInt($('.orderitems-' + i + '-price').text().replace(',', '.'));
+        //*****//
         _product_total_price = parseInt($('.orderitems-' + i + '-product_total_price').text().replace(',', '.'));
+        //*****//
+
 
         quantity_arr[i] = _quantity;
         if (_price) {
@@ -21,17 +24,19 @@ window.onload = function () {
         } else {
             price_arr[i] = 0
         }
+
+        //*****//
         if (_product_total_price) {
             product_total_price_arr[i] = _product_total_price;
         } else {
             product_total_price_arr[i] = 0
         }
-
+        //*****//
     }
-
-
     console.info('price:', price_arr);
+    //*****//
     console.info('product_total_price:', product_total_price_arr);
+    //*****//
     console.info('quantity:', quantity_arr);
 
 
