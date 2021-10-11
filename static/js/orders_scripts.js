@@ -73,7 +73,7 @@ window.onload = function () {
 
         $('.order_total_quantity').html(order_total_quantity.toString());
         $('.order_total_cost').html(order_total_price.toString() + ',00');
-        $('.orderitems-' + orderitem_num + '-product_total_price').html(product_total_price.toString() + ',00');
+        $('.orderitems-' + orderitem_num + '-product_total_price').html(product_total_price.toString() + ',00руб.');
     }
 
 
