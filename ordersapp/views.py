@@ -42,9 +42,14 @@ class OrderCreate(CreateView):
 				for num, form in enumerate(formset.forms):
 					form.initial['product'] = basket_items[num].product
 					form.initial['quantity'] = basket_items[num].quantity
-				basket_items.delete()
+					form.initial['price'] = basket_items[num].product.price
+					form.initial['product_total_price'] = basket_items[num].product.price * basket_items[num].quantity
+				basket_items.delete() # переделать (корзина должна удаляться только после сохранения заказа)
 			else:
 				formset = OrderFormSet()
+				# for form in formset:
+				# 	if form.instance.pk:
+				# 		form.initial['price'] = form.instance.product.price
 		context['orderitems'] = formset
 		return context
 
@@ -79,7 +84,10 @@ class OrderUpdate(UpdateView):
 			formset = OrderFormSet(self.request.POST, instance=self.object)
 		else:
 			formset = OrderFormSet(instance=self.object)
-
+			for form in formset:
+				if form.instance.pk:
+					form.initial['price'] = form.instance.product.price
+					form.initial['product_total_price'] = form.instance.product.price * form.instance.quantity
 		context['orderitems'] = formset
 		return context
 

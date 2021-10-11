@@ -15,6 +15,8 @@ class OrderForm(forms.ModelForm):
 
 
 class OrderItemsForm(forms.ModelForm):
+	price = forms.CharField(label='цена', required=False)
+	product_total_price = forms.CharField(label='Итого', required=False)
 	class Meta:
 		model = OrderItem
 		exclude = ()
