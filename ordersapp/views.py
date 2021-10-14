@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.db.models.signals import pre_delete, pre_save
+from django.db.models.signals import pre_delete, pre_save, post_save
 from django.dispatch import receiver
 from django.forms import inlineformset_factory
 
@@ -44,12 +44,13 @@ class OrderCreate(CreateView):
 					form.initial['quantity'] = basket_items[num].quantity
 					form.initial['price'] = basket_items[num].product.price
 					form.initial['product_total_price'] = basket_items[num].product.price * basket_items[num].quantity
-				basket_items.delete() # переделать (корзина должна удаляться только после сохранения заказа)
+				if save_order(**kwargs):
+					basket_items.delete()  # переделать (корзина должна удаляться только после сохранения заказа)
 			else:
 				formset = OrderFormSet()
-				# for form in formset:
-				# 	if form.instance.pk:
-				# 		form.initial['price'] = form.instance.product.price
+			# for form in formset:
+			# 	if form.instance.pk:
+			# 		form.initial['price'] = form.instance.product.price
 		context['orderitems'] = formset
 		return context
 
@@ -145,3 +146,26 @@ def product_quantity_update_delete(sender, instance, **kwargs):
 def product_quantity_update_delete(sender, instance, **kwargs):
 	instance.product.quantity += instance.quantity
 	instance.product.save()
+
+
+# Пример подключения Intercassa
+def payment_result(request):
+	# ik_co_id = 51237daa8f2a2d8413000000
+	# ik_inv_id = 339800573
+	# ik_inv_st = success
+	# ik_pm_no = 1
+	status = request.GET.get('ik_inv_st')
+	if status == 'success':  # добавить в обработку два еще два статуса (в ожидании и платеж откланен)(из документации Intercassa)
+		order_pk = request.GET.get('ik_pm_no')
+		order_item = Order.objects.get(pk=order_pk)
+		order_item.status = Order.PAID
+		order_item.save()
+	return HttpResponseRedirect(reverse('orders:list'))
+
+	pass
+
+#
+# @receiver(post_save, sender=OrderItem)
+# def save_order(**kwargs):
+# 	# if kwargs:
+# 		return True

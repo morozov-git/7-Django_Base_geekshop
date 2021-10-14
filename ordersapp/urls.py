@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import OrderList, OrderRead, OrderCreate, OrderDelete, OrderUpdate, order_forming_complete
+from .views import OrderList, OrderRead, OrderCreate, OrderDelete, OrderUpdate, order_forming_complete, payment_result
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -30,6 +30,6 @@ urlpatterns = [
     path('update/<int:pk>/', OrderUpdate.as_view(), name='update'),
     path('delete/<int:pk>/', OrderDelete.as_view(), name='delete'),
     path('forming-complete/<int:pk>/', order_forming_complete, name='forming_complete'),
-
+    path('/payment/result/', payment_result, name='payment_result'), # Пример подключения Intercassa
 ]
 
