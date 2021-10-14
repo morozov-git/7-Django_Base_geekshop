@@ -1,4 +1,4 @@
-
+{% load static %}
 <div class="basket_list">
 
     {% if baskets %}
@@ -44,3 +44,5 @@
     {% endif %}
 
 </div>
+
+<script src={% static 'js/baskets.js' %}></script>

@@ -1,3 +1,5 @@
+{% load static %}
+
 {% if object %}
     <div class="h3">Заказ No{{ object.pk }} от {{ object.created|date:"Y-m-d H:i:s" }}</div>
     <hr>
@@ -25,3 +27,5 @@
     {% endif %}
 {% endif %}
 <hr>
+
+<script src={% static 'js/orders_scripts.js' %}></script>
