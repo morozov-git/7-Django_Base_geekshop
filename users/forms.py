@@ -24,9 +24,12 @@ class UserProfileForm(UserChangeForm):
 	def clean_image(self):
 		if self.cleaned_data['image']:
 			data = self.cleaned_data['image']
-			if data.size > 1050000:
-				raise forms.ValidationError("Слишком большой файл! Выберите файл меньше 1МБ.")
-			return data
+			try:
+				if data.size > 1050000:
+					raise forms.ValidationError("Слишком большой файл! Выберите файл меньше 1МБ.")
+				return data
+			except:
+				return data
 
 
 	def __init__(self, *args, **kwargs):
