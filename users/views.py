@@ -77,6 +77,8 @@ def profile(request):
 		profile_form = UserProfileEditForm(instance=request.user.userprofile)
 		form = UserProfileForm(instance=request.user)
 
+	try:
+		requestImageURL = request.user.image.url
 		#нужно подменить ссылку на изобрыжение в профиле, если оно загружается со стороннего ресурса(содержит http://)
 		requestImageName = request.user.image.name
 		requestImageURL = request.user.image.url
@@ -88,11 +90,14 @@ def profile(request):
 		if profile_image.find('/media/http') != -1:
 			# Как правильно подменить данные в form или request чтобы не вводить
 			# дополнительную переменную (profile_image) и не передавать ее в контекст?
-			
+
 			# при таком изменении данных выходила ошибка
 			# request.user.image.url = requestImageName
 			# form['image'].initial.url = formImageName
 			profile_image = request.user.image.name
+	except:
+		profile_image = 0
+
 
 
 	context = {
