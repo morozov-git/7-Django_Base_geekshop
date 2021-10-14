@@ -10,7 +10,7 @@ JSON_PATH = 'products/fixtures'
 
 
 def load_from_json(file_name):
-	with open(file_name, mode='r', encoding='windows-1251') as infile:
+	with open(file_name, mode='r', encoding='UTF-8') as infile:
 		return json.load(infile)
 
 
