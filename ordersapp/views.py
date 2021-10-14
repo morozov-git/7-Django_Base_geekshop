@@ -4,6 +4,7 @@ from django.dispatch import receiver
 from django.forms import inlineformset_factory
 
 # Create your views here.
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -11,6 +12,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from baskets.models import Basket
 from ordersapp.forms import OrderItemsForm
 from ordersapp.models import Order, OrderItem
+from products.models import Product
 
 
 class OrderList(ListView):
@@ -146,6 +148,15 @@ def product_quantity_update_delete(sender, instance, **kwargs):
 def product_quantity_update_delete(sender, instance, **kwargs):
 	instance.product.quantity += instance.quantity
 	instance.product.save()
+
+
+
+def get_product_price(request, pk):
+	if request.is_ajax():
+		product = Product.objects.filter(pk=pk).first()
+		if product:
+			return JsonResponse({'price': product.price})
+		return JsonResponse({'price': 0})
 
 
 # Пример подключения Intercassa

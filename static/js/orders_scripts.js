@@ -90,4 +90,35 @@ window.onload = function () {
         orderSummeryUpdate(price_arr[orderitem_num], delta_quantity, orderitem_num)
     }
 
+    $('.order_form select').change(function (){
+        let target = event.target;
+        orderitem_num = parseInt(target.name.replace('orderitems-','').replace('-product',''));
+        console.log(orderitem_num)
+        let orderitem_product_pk = target.options[target.selectedIndex].value;
+        console.log(orderitem_product_pk)
+
+        if(orderitem_product_pk){
+            $.ajax({
+                url: '/orders/product/' + orderitem_product_pk + '/price/',
+                success: function (data){
+                    if(data.price){
+                        price_arr[orderitem_num] = parseFloat(data.price)
+                        if(isNaN(quantity_arr[orderitem_num])){
+                            quantity_arr[orderitem_num] = 0;
+                        }
+                        let price_html = '<span classname="orderitems-' + orderitem_num + '-price">' +
+                            data.price.toString().replace('.', ',') + '</span> руб.';
+                        let current_tr = $('.order_form table').find('tr:eq('+ (orderitem_num + 1) +')');
+                        current_tr.find('td:eq(2)').html(price_html);
+
+                    }
+                }
+            });
+        }
+
+    });
+
+
+
+
 }
