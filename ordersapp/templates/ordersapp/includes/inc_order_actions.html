@@ -1,3 +1,5 @@
+{% load static %}
+
 {% if object.status == 'FM' %}
     <div class="container">
         <div class="d-flex justify-content-around">
@@ -39,3 +41,5 @@
         <a href="{% url 'index' %}">на главную</a>
     </button>
 </div>
+
+<script src={% static 'js/orders_scripts.js' %}></script>
