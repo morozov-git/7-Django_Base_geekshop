@@ -51,16 +51,16 @@ def save_user_profile(backend, user, response, *args, **kwargs):
 		# user.image = path_photo
 		# user.save()
 
-	try: # Пробуем получить возраст из профиля VK, если его нет в ответе сервера, то заполняем дату поумолчанию
-		bdate = datetime.strptime(data['bdate'],'%d.%m.%Y').date()
-		age = timezone.now().date().year - bdate.year
-		user.age = age
-		# return user.age
-		if age < 18:
-			user.delete()
-			raise AuthForbidden('social_core.backends.vk.VKOAuth2')
-		user.save()
-		return user
-	except:
-		user.save()
+	# try: # Пробуем получить возраст из профиля VK, если его нет в ответе сервера, то заполняем дату поумолчанию
+	# 	bdate = datetime.strptime(data['bdate'],'%d.%m.%Y').date()
+	# 	age = timezone.now().date().year - bdate.year
+	# 	user.age = age
+	# 	# return user.age
+	# 	if age < 18:
+	# 		user.delete()
+	# 		raise AuthForbidden('social_core.backends.vk.VKOAuth2')
+	# 	user.save()
+	# 	return user
+	# except:
+	# 	user.save()
 
