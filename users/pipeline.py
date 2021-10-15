@@ -63,4 +63,5 @@ def save_user_profile(backend, user, response, *args, **kwargs):
 	# 	return user
 	# except:
 	# 	user.save()
+	user.save()
 
