@@ -46,7 +46,7 @@ class OrderCreate(CreateView):
 					form.initial['quantity'] = basket_items[num].quantity
 					form.initial['price'] = basket_items[num].product.price
 					form.initial['product_total_price'] = basket_items[num].product.price * basket_items[num].quantity
-				if save_order(**kwargs):
+				# if save_order(**kwargs):
 					basket_items.delete()  # переделать (корзина должна удаляться только после сохранения заказа)
 			else:
 				formset = OrderFormSet()

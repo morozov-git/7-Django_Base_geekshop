@@ -7,7 +7,7 @@
       "image": "products_images/Adidas-hoodie.png",
       "description": "Мягкая ткань для свитшотов. Стиль и комфорт – это образ жизни.",
       "price": "6090.00",
-      "quantity": 5,
+      "quantity": 500,
       "category": 1
     }
   },
@@ -19,8 +19,8 @@
       "image": "products_images/Blue-jacket-The-North-Face.png",
       "description": "Гладкая ткань. Водонепроницаемое покрытие. Легкий и теплый пуховый наполнитель.",
       "price": "3725.00",
-      "quantity": 2,
-      "category": 1
+      "quantity": 200,
+      "category": 2
     }
   },
   {
@@ -31,8 +31,8 @@
       "image": "products_images/Brown-sports-oversized-top-ASOS-DESIGN.png",
       "price": "3390.00",
       "description": "Материал с плюшевой текстурой. Удобный и мягкий.",
-      "quantity": 7,
-      "category": 1
+      "quantity": 700,
+      "category": 5
     }
   },
     {
@@ -43,7 +43,7 @@
       "name": "Черный рюкзак Nike Heritage",
       "price": "2340.00",
       "description": "Плотная ткань. Легкий материал.",
-      "quantity": 6,
+      "quantity": 600,
       "category": 4
     }
   },
@@ -55,7 +55,7 @@
       "name": "Черные туфли на платформе с 3 парами люверсов Dr Martens 1461 Bex",
       "price": "13590.00",
       "description": "Гладкий кожаный верх. Натуральный материал.",
-      "quantity": 2,
+      "quantity": 200,
       "category": 3
     }
   },
@@ -67,7 +67,7 @@
     "name": "Темно-синие широкие строгие брюки ASOS DESIGN",
     "price": "2890.00",
     "description": "Легкая эластичная ткань сирсакер Фактурная ткань.",
-      "quantity": 7,
+      "quantity": 700,
       "category": 1
     }
   }
