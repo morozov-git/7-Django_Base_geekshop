@@ -43,7 +43,7 @@ def products(request, cat_id=0, page=1):
 		# print(cat_id)
 		products_list = Product.objects.filter(category_id=cat_id)
 
-	paginator = Paginator(products_list, per_page=3)
+	paginator = Paginator(products_list, per_page=3) # количество товаров на странице
 	try:
 		products_paginator = paginator.page(page)
 	except PageNotAnInteger:
