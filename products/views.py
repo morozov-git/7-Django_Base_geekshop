@@ -47,7 +47,7 @@ def products(request, cat_id=0, page=1):
 	try:
 		products_paginator = paginator.page(page)
 	except PageNotAnInteger:
-		products_paginator = paginator.page(1)
+		products_paginator = paginator.page(3)
 	except EmptyPage:
 		products_paginator = paginator.page(paginator.num_pages)
 
