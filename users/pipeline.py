@@ -34,12 +34,12 @@ def save_user_profile(backend, user, response, *args, **kwargs):
 	# user_test_about = data['about']
 	user_about = f"{data['about']}\n"
 	user.userprofile.about_me = user_about
-	if data['personal']:
-		# lang = str(*data['personal']['langs'])
-		user_personal = f"Ссылка в VK: http://vk.com/{data['domain']}\n"
-		# user_personal = f"Язык: {lang}\n" \
-		# 				f"Ссылка в VK: http://vk.com/{data['domain']}\n"
-		user.userprofile.about_me = user_personal + user_about
+	# if data['personal']:
+	# 	# lang = str(*data['personal']['langs'])
+	# 	user_personal = f"Ссылка в VK: http://vk.com/{data['domain']}\n"
+	# 	# user_personal = f"Язык: {lang}\n" \
+	# 	# 				f"Ссылка в VK: http://vk.com/{data['domain']}\n"
+	# 	user.userprofile.about_me = user_personal + user_about
 
 	if data['has_photo'] == 1:
 		user.image = data['photo_100']
