@@ -200,9 +200,9 @@ SOCIAL_AUTH_VK_OAUTH2_IGNORE_DEFAULT_SCORE = True
 SOCIAL_AUTH_VK_OAUTH2_SCORE = ['email']
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
-SOCIAL_AUTH_REDIRECT_IS_HTTPS = True  # проверить авторизацию через другие аккаунты
-SOCIAL_AUTH_JSONFIELD_ENABLED = True
-SESSION_COOKIE_SECURE = False
+# SOCIAL_AUTH_REDIRECT_IS_HTTPS = True  # проверить авторизацию через другие аккаунты
+# SOCIAL_AUTH_JSONFIELD_ENABLED = True
+# SESSION_COOKIE_SECURE = False
 
 SOCIAL_AUTH_PIPELINE = (
 	'social_core.pipeline.social_auth.social_details',
