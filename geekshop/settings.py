@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 	'ordersapp',
 	'debug_toolbar',
 	'template_profiler_panel',
+	'django_extensions',
 
 ]
 
@@ -95,22 +96,21 @@ WSGI_APPLICATION = 'geekshop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR / 'db.sqlite3'),
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # DATABASES = {
 # 	'default': {
-# 		'ENGINE': 'django.db.backends.postgresql',
-# 		'NAME': 'geekshop',
-# 		'USER': 'postgres',
+# 		'ENGINE': 'django.db.backends.sqlite3',
+# 		'NAME': os.path.join(BASE_DIR / 'db.sqlite3'),
+# 		# 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 # 	}
 # }
+
+DATABASES = {
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql',
+		'NAME': 'geekshop',
+		'USER': 'postgres',
+	}
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -216,10 +216,11 @@ SOCIAL_AUTH_PIPELINE = (
 	'social_core.pipeline.user.user_details',
 )
 
-
 if DEBUG:
 	def show_toolbar(request):
 		return True
+
+
 	DEBUG_TOOLBAR_CONFIG = {
 		'SHOW_TOOLBAR_CALLBACK': show_toolbar,
 	}

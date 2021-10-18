@@ -41,7 +41,9 @@ def products(request, cat_id=0, page=1):
 		products_list = Product.objects.all()
 	else:
 		# print(cat_id)
-		products_list = Product.objects.filter(category_id=cat_id)
+		# products_list = Product.objects.filter(category_id=cat_id)
+		products_list = Product.objects.filter(category_id=cat_id).select_related('category')[:3]
+		print(products_list.query)
 
 	paginator = Paginator(products_list, per_page=3) # количество товаров на странице
 	try:
