@@ -28,7 +28,9 @@ class OrderCreate(CreateView):
 	model = Order
 	fields = []
 	success_url = reverse_lazy('orders:list')
-
+	#####
+	basket_items_1 = 0
+	#####
 	def get_context_data(self, **kwargs):
 		context = super(OrderCreate, self).get_context_data(**kwargs)
 		context['title'] = 'GeekShop|Создать заказ'
@@ -46,13 +48,10 @@ class OrderCreate(CreateView):
 					form.initial['quantity'] = basket_items[num].quantity
 					form.initial['price'] = basket_items[num].product.price
 					form.initial['product_total_price'] = basket_items[num].product.price * basket_items[num].quantity
-				# if save_order(**kwargs):
-					basket_items.delete()  # переделать (корзина должна удаляться только после сохранения заказа)
+
+				# basket_items.delete()  # переделать (корзина должна удаляться только после сохранения заказа)
 			else:
 				formset = OrderFormSet()
-			# for form in formset:
-			# 	if form.instance.pk:
-			# 		form.initial['price'] = form.instance.product.price
 		context['orderitems'] = formset
 		return context
 
@@ -61,6 +60,11 @@ class OrderCreate(CreateView):
 		orderitems = context['orderitems']
 
 		with transaction.atomic():
+			#####
+			# Для удаления корзины только во время сохранения заказа
+			basket_items_del = Basket.objects.filter(user=self.request.user)
+			basket_items_del.delete()
+			#####
 			form.instance.user = self.request.user
 			self.object = form.save()
 			if orderitems.is_valid():
