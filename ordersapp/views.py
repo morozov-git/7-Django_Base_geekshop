@@ -88,13 +88,13 @@ class OrderUpdate(UpdateView):
 	fields = []
 
 	# success_url = reverse_lazy('orders:list')
-
 	def get_context_data(self, **kwargs):
 		context = super(OrderUpdate, self).get_context_data(**kwargs)
 		context['title'] = 'GeekShop|Создать заказ'
 		OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemsForm, extra=1)
 		if self.request.POST:
-			formset = OrderFormSet(self.request.POST, instance=self.object)
+			queryset = self.object.orderitems.select_related()
+			formset = OrderFormSet(self.request.POST, instance=self.object, queryset=queryset)
 		else:
 			formset = OrderFormSet(instance=self.object)
 			for form in formset:
