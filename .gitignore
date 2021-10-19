@@ -11,3 +11,7 @@
 /users/vk_settings.txt
 /python
 /db 2.sqlite3
+/baskets/migrations/
+/ordersapp/migrations/
+/products/migrations/
+/users/migrations/
