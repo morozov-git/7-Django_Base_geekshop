@@ -34,16 +34,16 @@ def index(request):
 
 
 def products(request, cat_id=0, page=1):
-	categories_list = ProductsCategory.objects.all()
+	categories_list = ProductsCategory.objects.all().select_related()
 	# baskets = basket_icon(request) # после подключения контекстного процессора можно отключить
 	if cat_id == 0:
 		# print(cat_id)
-		products_list = Product.objects.all()
+		products_list = Product.objects.all().select_related('category')
 	else:
 		# print(cat_id)
 		# products_list = Product.objects.filter(category_id=cat_id)
-		products_list = Product.objects.filter(category_id=cat_id).select_related('category')[:3]
-		print(products_list.query)
+		products_list = Product.objects.filter(category_id=cat_id).select_related('category')
+		# print(products_list.query)
 
 	paginator = Paginator(products_list, per_page=3) # количество товаров на странице
 	try:
