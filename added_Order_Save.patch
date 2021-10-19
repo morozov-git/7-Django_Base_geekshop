@@ -1,0 +1,155 @@
+Index: baskets/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- baskets/models.py	(revision 1cf32cbb066353255590e24015a3fc7e5af71fbc)
++++ baskets/models.py	(revision 01665769ab9ecb892526d7a59eccbfd2bbdcfede)
+@@ -4,18 +4,18 @@
+ from users.models import User
+ from products.models import Product
+ 
+-class BasketQuerySet(models.QuerySet):
+-
+-	def delete(self, *args, **kwargs):
+-		for item in self:
+-			item.product.quantity -= item.quantity
+-			item.product.save()
+-		super(BasketQuerySet, self).delete(*args, **kwargs)
++# class BasketQuerySet(models.QuerySet):
++#
++# 	def delete(self, *args, **kwargs):
++# 		for item in self:
++# 			item.product.quantity += item.quantity
++# 			item.product.save()
++# 		super(BasketQuerySet, self).delete(*args, **kwargs)
+ 
+ 
+ 
+ class Basket(models.Model):
+-	objects = BasketQuerySet.as_manager()
++	# objects = BasketQuerySet.as_manager()
+ 	user = models.ForeignKey(User, on_delete=models.CASCADE)
+ 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
+ 	quantity = models.PositiveIntegerField(default=0)
+@@ -35,4 +35,9 @@
+ 
+ 	def total_quantity(self):
+ 		baskets = Basket.objects.filter(user=self.user)
+-		return sum(basket.quantity for basket in baskets)
+\ No newline at end of file
++		return sum(basket.quantity for basket in baskets)
++
++	@staticmethod
++	def get_item(pk):
++		return Basket.objects.get(pk=pk).quantity
++
+Index: ordersapp/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ordersapp/models.py	(revision 1cf32cbb066353255590e24015a3fc7e5af71fbc)
++++ ordersapp/models.py	(revision 01665769ab9ecb892526d7a59eccbfd2bbdcfede)
+@@ -1,5 +1,7 @@
+ from django.db import models
+ from django.conf import settings
++
++from baskets.models import Basket
+ from products.models import Product
+ 
+ 
+@@ -42,8 +44,8 @@
+ 
+ 	def delete(self, using=None, keep_parents=False):
+ 		for item in self.orderitems.select_related():
+-			item.products.quantity += item.quantity
+-			item.products.save()
++			item.product.quantity += item.quantity
++			item.product.save()
+ 		self.is_active = False
+ 		self.save()
+ 
+@@ -58,3 +60,9 @@
+ 
+ 	def get_product_cost(self):
+ 		return self.product.price * self.quantity
++
++	@staticmethod
++	def get_item(pk):
++		return Basket.objects.get(pk=pk).quantity
++
++
+Index: ordersapp/views.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ordersapp/views.py	(revision 1cf32cbb066353255590e24015a3fc7e5af71fbc)
++++ ordersapp/views.py	(revision 01665769ab9ecb892526d7a59eccbfd2bbdcfede)
+@@ -1,8 +1,8 @@
+-
+ from django.db import transaction
++from django.db.models.signals import pre_delete, pre_save
++from django.dispatch import receiver
+ from django.forms import inlineformset_factory
+ 
+-
+ # Create your views here.
+ from django.shortcuts import get_object_or_404, HttpResponseRedirect
+ from django.urls import reverse_lazy, reverse
+@@ -15,14 +15,13 @@
+ 
+ class OrderList(ListView):
+ 	model = Order
++
+ 	# fields = []
+ 	# success_url = reverse_lazy('orders:list')
+ 	def get_queryset(self):
+ 		return Order.objects.filter(user=self.request.user, is_active=True)
+ 
+ 
+-
+-
+ class OrderCreate(CreateView):
+ 	model = Order
+ 	fields = []
+@@ -65,9 +64,11 @@
+ 
+ 		return super().form_valid(form)
+ 
++
+ class OrderUpdate(UpdateView):
+ 	model = Order
+ 	fields = []
++
+ 	# success_url = reverse_lazy('orders:list')
+ 
+ 	def get_context_data(self, **kwargs):
+@@ -114,9 +115,25 @@
+ 		return context
+ 
+ 
+-
+ def order_forming_complete(request, pk):
+ 	order = get_object_or_404(Order, pk=pk)
+ 	order.status = order.SEND_TO_PROCEED
+ 	order.save()
+ 	return HttpResponseRedirect(reverse('orders:list'))
++
++
++@receiver(pre_save, sender=Basket)
++@receiver(pre_save, sender=OrderItem)
++def product_quantity_update_delete(sender, instance, **kwargs):
++	if instance.pk:
++		instance.product.quantity -= instance.quantity - instance.get_item(int(instance.pk))
++	else:
++		instance.product.quantity -= instance.quantity
++	instance.product.save()
++
++
++@receiver(pre_delete, sender=Basket)
++@receiver(pre_delete, sender=OrderItem)
++def product_quantity_update_delete(sender, instance, **kwargs):
++	instance.product.quantity += instance.quantity
++	instance.product.save()

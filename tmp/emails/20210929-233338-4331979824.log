@@ -1,0 +1,14 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?b?0JTQu9GPINCw0LrRgtC40LLQsNGG0LjQuCDRg9GH0LXRgtC90L7QuSDQt9Cw0L8=?=
+ =?utf-8?b?0LjRgdC4IHF3ZSDQv9C10YDQtdC50LTQuNGC0LUg0L/QviDRgdGB0YvQu9C60LU=?=
+From: django@geekshop.local
+To: qwe@mail.ru
+Date: Wed, 29 Sep 2021 23:33:38 -0000
+Message-ID: <163295841859.8074.3345376384442874471@MacBook.local>
+
+Для подтверждения учетной записи qwe на портале http://localhost:8000 
+перейдите по ссылке: http://localhost:8000/users/verify/qwe@mail.ru/d1eb7b47c66523d141f16c3c11cc25263d5d51da/
+-------------------------------------------------------------------------------
