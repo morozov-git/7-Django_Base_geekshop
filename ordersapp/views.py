@@ -44,7 +44,7 @@ class OrderCreate(CreateView):
 		if self.request.POST:
 			formset = OrderFormSet(self.request.POST)
 		else:
-			basket_items = Basket.objects.filter(user=self.request.user)
+			basket_items = Basket.objects.filter(user=self.request.user).select_related()
 			if basket_items:
 				OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemsForm, extra=basket_items.count())
 				formset = OrderFormSet(instance=self.object)
@@ -92,11 +92,13 @@ class OrderUpdate(UpdateView):
 		context = super(OrderUpdate, self).get_context_data(**kwargs)
 		context['title'] = 'GeekShop|Создать заказ'
 		OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemsForm, extra=1)
+		queryset = self.object.orderitems.select_related()
 		if self.request.POST:
-			queryset = self.object.orderitems.select_related()
+			# queryset = self.object.orderitems.select_related()
 			formset = OrderFormSet(self.request.POST, instance=self.object, queryset=queryset)
 		else:
-			formset = OrderFormSet(instance=self.object)
+			# queryset = self.object.orderitems.select_related()
+			formset = OrderFormSet(instance=self.object, queryset=queryset)
 			for form in formset:
 				if form.instance.pk:
 					form.initial['price'] = form.instance.product.price

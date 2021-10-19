@@ -10,3 +10,4 @@
 /.env
 /users/vk_settings.txt
 /python
+/db 2.sqlite3
