@@ -61,7 +61,7 @@ def get_links_category():
 
 def get_links_product():
 	if settings.LOW_CACHE:
-		key = 'links_product' + str(cat_id)
+		key = 'links_product'
 		links_product = cache.get(key)
 
 		if links_product is None:
