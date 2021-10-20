@@ -66,13 +66,14 @@ def products(request, cat_id=0, page=1):
 	# baskets = basket_icon(request) # после подключения контекстного процессора можно отключить
 	if cat_id == 0:
 		# print(cat_id)
-		products_list = Product.objects.all().select_related('category')
+		# products_list = Product.objects.all().select_related('category')
+		products_list = get_links_product() # для кэширования списка продуктов вызываем дополнительный метод
 	else:
 		# print(cat_id)
 		# products_list = Product.objects.filter(category_id=cat_id)
 		products_list = Product.objects.filter(category_id=cat_id).select_related('category')
 		# print(products_list.query)
-	# products_list = get_links_product() # для кэширования списка продуктов вызываем дополнительный метод
+
 	paginator = Paginator(products_list, per_page=3) # количество товаров на странице
 	try:
 		products_paginator = paginator.page(page)
