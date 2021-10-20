@@ -38,7 +38,7 @@ def get_links_category():
 	else:
 		return ProductsCategory.objects.filter(is_active=True)
 
-def get_links_product(cat_id=0):
+def get_links_product():
 	if settings.LOW_CACHE:
 		key = 'links_product'
 		links_product = cache.get(key)
