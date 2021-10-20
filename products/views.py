@@ -73,7 +73,7 @@ def products(request, cat_id=0, page=1):
 	else:
 		# print(cat_id)
 		# products_list = Product.objects.filter(category_id=cat_id)
-		# products_list = Product.objects.filter(category_id=cat_id).select_related('category')
+		products_list = Product.objects.filter(category_id=cat_id).select_related('category')
 		# products_list = get_links_product(cat_id)  # для кэширования списка продуктов вызываем дополнительный метод
 		# print(products_list.query)
 
