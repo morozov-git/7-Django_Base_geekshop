@@ -27,16 +27,24 @@ class Basket(models.Model):
 	def __str__(self):
 		return f'Корзина для {self.user.username} | Продукты {self.product.name}'
 
+
 	def sum(self):
 		return self.quantity * self.product.price
 
-	def total_sum(self):
-		baskets = Basket.objects.filter(user=self.user)
-		return sum(basket.sum() for basket in baskets)
+	@cached_property
+	def total_sum_quantity(self):
+		baskets = Basket.objects.filter(user=self.user).select_related()
+		return { 'total_sum': sum(basket.sum() for basket in baskets),
+				 'total_quantity' : sum(basket.quantity for basket in baskets)
+				 }
 
-	def total_quantity(self):
-		baskets = Basket.objects.filter(user=self.user)
-		return sum(basket.quantity for basket in baskets)
+	# def total_sum(self):
+	# 	baskets = Basket.objects.filter(user=self.user)
+	# 	return sum(basket.sum() for basket in baskets)
+	#
+	# def total_quantity(self):
+	# 	baskets = Basket.objects.filter(user=self.user)
+	# 	return sum(basket.quantity for basket in baskets)
 
 	@staticmethod
 	def get_item(pk):

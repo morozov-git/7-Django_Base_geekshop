@@ -3,7 +3,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'baskets:baskets_show'%}">
                 <i class="fas fa-shopping-basket"></i>
-                <span class="badge badge-secondary badge-pill">{{ baskets.0.total_quantity }}</span>
+                <span class="badge badge-secondary badge-pill">{{ baskets.0.total_sum_quantity.total_quantity }}</span>
             </a>
         </li>
     {% endif %}
