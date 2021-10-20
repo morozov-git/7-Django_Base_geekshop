@@ -87,7 +87,7 @@ def products(request, cat_id=0, page=1):
 		# "products_list": products_list,
 		'cat_id': cat_id,
 		# "categories_list": categories_list,
-		"categories_list": get_links_category(),
+		"categories_list": get_links_category(),  # для кэширования категорий вызываем дополнительный метод
 		# 'baskets': baskets, # после подключения контекстного процессора можно отключить
 	}
 
