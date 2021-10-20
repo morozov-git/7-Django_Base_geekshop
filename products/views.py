@@ -44,11 +44,11 @@ def get_links_product(cat_id=0):
 		links_product = cache.get(key)
 
 		if links_product is None:
-			links_product = Product.objects.filter(is_active=True, cat_id=cat_id).select_related()
+			links_product = Product.objects.filter(is_active=True, category_id=cat_id).select_related()
 			cache.set(key, links_product)
 		return links_product
 	else:
-		return Product.objects.filter(is_active=True, cat_id=cat_id).select_related()
+		return Product.objects.filter(is_active=True, category_id=cat_id).select_related()
 
 
 
