@@ -62,7 +62,7 @@ def index(request):
 
 
 def products(request, cat_id=0, page=1):
-	categories_list = ProductsCategory.objects.all()
+	# categories_list = ProductsCategory.objects.all()
 	# baskets = basket_icon(request) # после подключения контекстного процессора можно отключить
 	if cat_id == 0:
 		# print(cat_id)
