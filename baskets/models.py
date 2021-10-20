@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 from users.models import User
 from products.models import Product
+from django.utils.functional import cached_property
 
 # class BasketQuerySet(models.QuerySet):
 #
@@ -16,7 +17,7 @@ from products.models import Product
 
 class Basket(models.Model):
 	# objects = BasketQuerySet.as_manager()
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='basket')
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
 	quantity = models.PositiveIntegerField(default=0)
 
@@ -40,6 +41,11 @@ class Basket(models.Model):
 	@staticmethod
 	def get_item(pk):
 		return Basket.objects.get(pk=pk).quantity
+
+	@cached_property
+	def get_item_cached(self):
+		return self.user.basket.select_related()
+
 
 	# def delete(self, *args, **kwargs):
 	# 	self.product.quantity += self.quantity
