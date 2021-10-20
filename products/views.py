@@ -72,7 +72,7 @@ def products(request, cat_id=0, page=1):
 		# products_list = Product.objects.filter(category_id=cat_id)
 		products_list = Product.objects.filter(category_id=cat_id).select_related('category')
 		# print(products_list.query)
-	# products_list = get_links_product() # для кэширования списка продуктов вызываем дополнительный метод
+	products_list = get_links_product() # для кэширования списка продуктов вызываем дополнительный метод
 	paginator = Paginator(products_list, per_page=3) # количество товаров на странице
 	try:
 		products_paginator = paginator.page(page)
@@ -86,8 +86,8 @@ def products(request, cat_id=0, page=1):
 		"products_list": products_paginator,
 		# "products_list": products_list,
 		'cat_id': cat_id,
-		"categories_list": categories_list,
-		# "categories_list": get_links_category(),
+		# "categories_list": categories_list,
+		"categories_list": get_links_category(),
 		# 'baskets': baskets, # после подключения контекстного процессора можно отключить
 	}
 
