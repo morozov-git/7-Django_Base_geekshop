@@ -44,11 +44,13 @@ def get_links_product(cat_id=0):
 		links_product = cache.get(key)
 
 		if links_product is None:
-			links_product = Product.objects.filter(category_id=cat_id).filter(is_active=True).select_related()
+			# links_product = Product.objects.filter(is_active=True).filter(category_id=cat_id).select_related()
+			links_product = Product.objects.filter(is_active=True).select_related()
 			cache.set(key, links_product)
 		return links_product
 	else:
-		return Product.objects.filter(category_id=cat_id).filter(is_active=True).select_related()
+		return Product.objects.filter(is_active=True).select_related()
+		# return Product.objects.filter(is_active=True).filter(category_id=cat_id).select_related()
 
 
 
@@ -67,12 +69,12 @@ def products(request, cat_id=0, page=1):
 	if cat_id == 0:
 		# print(cat_id)
 		# products_list = Product.objects.all().select_related('category')
-		products_list = get_links_product(cat_id) # для кэширования списка продуктов вызываем дополнительный метод
+		products_list = get_links_product() # для кэширования списка продуктов вызываем дополнительный метод
 	else:
 		# print(cat_id)
 		# products_list = Product.objects.filter(category_id=cat_id)
 		# products_list = Product.objects.filter(category_id=cat_id).select_related('category')
-		products_list = get_links_product(cat_id)  # для кэширования списка продуктов вызываем дополнительный метод
+		# products_list = get_links_product(cat_id)  # для кэширования списка продуктов вызываем дополнительный метод
 		# print(products_list.query)
 
 	paginator = Paginator(products_list, per_page=3) # количество товаров на странице
