@@ -5,6 +5,11 @@ import json
 from products.models import Product, ProductsCategory
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.cache import cache
+import os
+from django.conf import settings
+
+MODULE_DIR = os.path.dirname(__file__)
 
 # with open("static/products.json", "r", encoding="utf-8") as goods:
 # 	products_list = json.load(goods)
@@ -21,6 +26,29 @@ def basket_icon(request):
 	else:
 		return Basket.objects.filter(user=request.user)
 
+def get_links_category():
+	if settings.LOW_CACHE:
+		key = 'links_category'
+		links_category = cache.get(key)
+
+		if links_category is None:
+			links_category = ProductsCategory.objects.filter(is_active=True)
+			cache.set(key, links_category)
+		return links_category
+	else:
+		return ProductsCategory.objects.filter(is_active=True)
+
+def get_links_product():
+	if settings.LOW_CACHE:
+		key = 'links_product'
+		links_product = cache.get(key)
+
+		if links_product is None:
+			links_product = Product.objects.filter(is_active=True).select_related()
+			cache.set(key, links_product)
+		return links_product
+	else:
+		return Product.objects.filter(is_active=True).select_related()
 
 
 
@@ -34,7 +62,7 @@ def index(request):
 
 
 def products(request, cat_id=0, page=1):
-	categories_list = ProductsCategory.objects.all().select_related()
+	categories_list = ProductsCategory.objects.all()
 	# baskets = basket_icon(request) # после подключения контекстного процессора можно отключить
 	if cat_id == 0:
 		# print(cat_id)
@@ -44,7 +72,7 @@ def products(request, cat_id=0, page=1):
 		# products_list = Product.objects.filter(category_id=cat_id)
 		products_list = Product.objects.filter(category_id=cat_id).select_related('category')
 		# print(products_list.query)
-
+	products_list = get_links_product() # для кэширования списка продуктов вызываем дополнительный метод
 	paginator = Paginator(products_list, per_page=3) # количество товаров на странице
 	try:
 		products_paginator = paginator.page(page)
@@ -58,7 +86,8 @@ def products(request, cat_id=0, page=1):
 		"products_list": products_paginator,
 		# "products_list": products_list,
 		'cat_id': cat_id,
-		"categories_list": categories_list,
+		# "categories_list": categories_list,
+		"categories_list": get_links_category(),
 		# 'baskets': baskets, # после подключения контекстного процессора можно отключить
 	}
 
