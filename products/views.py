@@ -75,6 +75,17 @@ def get_links_product():
 			# return Product.objects.filter(is_active=True).select_related()
 			return Product.objects.filter(is_active=True).select_related()
 
+def get_product(pk):
+    if settings.LOW_CACHE:
+        key = f'product{pk}'
+        product = cache.get(key)
+
+        if product is None:
+            product = get_object_or_404(Product,pk=pk)
+            cache.set(key, product)
+        return product
+    else:
+        return get_object_or_404(Product,pk=pk)
 
 def index(request):
 	# baskets = basket_icon(request) # после подключения контекстного процессора можно отключить
