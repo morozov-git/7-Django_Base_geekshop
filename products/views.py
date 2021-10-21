@@ -13,6 +13,7 @@ from django.conf import settings
 
 MODULE_DIR = os.path.dirname(__file__)
 
+
 # with open("static/products.json", "r", encoding="utf-8") as goods:
 # 	products_list = json.load(goods)
 # products_list = Product.objects.all()
@@ -28,6 +29,7 @@ def basket_icon(request):
 	else:
 		return Basket.objects.filter(user=request.user)
 
+
 def get_links_category():
 	if settings.LOW_CACHE:
 		key = 'links_category'
@@ -39,6 +41,7 @@ def get_links_category():
 		return links_category
 	else:
 		return ProductsCategory.objects.filter(is_active=True)
+
 
 # def get_links_product(cat_id=0):
 # 	if settings.LOW_CACHE:
@@ -72,20 +75,22 @@ def get_links_product():
 			cache.set(key, links_product)
 		return links_product
 	else:
-			# return Product.objects.filter(is_active=True).select_related()
-			return Product.objects.filter(is_active=True).select_related()
+		# return Product.objects.filter(is_active=True).select_related()
+		return Product.objects.filter(is_active=True).select_related()
+
 
 def get_product(pk):
-    if settings.LOW_CACHE:
-        key = f'product{pk}'
-        product = cache.get(key)
+	if settings.LOW_CACHE:
+		key = f'product{pk}'
+		product = cache.get(key)
 
-        if product is None:
-            product = get_object_or_404(Product,pk=pk)
-            cache.set(key, product)
-        return product
-    else:
-        return get_object_or_404(Product,pk=pk)
+		if product is None:
+			product = get_object_or_404(Product, pk=pk)
+			cache.set(key, product)
+		return product
+	else:
+		return get_object_or_404(Product, pk=pk)
+
 
 def index(request):
 	# baskets = basket_icon(request) # после подключения контекстного процессора можно отключить
@@ -103,15 +108,15 @@ def products(request, cat_id=0, page=1):
 		# print(cat_id)
 		# products_list = Product.objects.all().select_related('category')
 		# products_list = get_links_product()  # для кэширования списка продуктов вызываем дополнительный метод
-		products_list = get_links_product() # для кэширования списка продуктов вызываем дополнительный метод
+		products_list = get_links_product()  # для кэширования списка продуктов вызываем дополнительный метод
 	else:
 		# print(cat_id)
 		# products_list = Product.objects.filter(category_id=cat_id)
 		products_list = Product.objects.filter(category_id=cat_id).select_related('category')
-		# products_list = get_links_product(cat_id)  # для кэширования списка продуктов вызываем дополнительный метод
-		# print(products_list.query)
+	# products_list = get_links_product(cat_id)  # для кэширования списка продуктов вызываем дополнительный метод
+	# print(products_list.query)
 
-	paginator = Paginator(products_list, per_page=3) # количество товаров на странице
+	paginator = Paginator(products_list, per_page=3)  # количество товаров на странице
 	try:
 		products_paginator = paginator.page(page)
 	except PageNotAnInteger:
@@ -130,6 +135,7 @@ def products(request, cat_id=0, page=1):
 	}
 
 	return render(request, "products.html", context)
+
 
 class ProductDetail(DetailView):
 	model = Product
