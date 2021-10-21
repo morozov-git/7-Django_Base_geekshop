@@ -122,7 +122,7 @@ def products(request, cat_id=0, page=1):
 
 class ProductDetail(DetailView):
 	model = Product
-	template_name = 'products/producrs_detail.html'
+	template_name = 'products/products_detail.html'
 	context_object_name = 'product'
 
 	def get_context_data(self, category_id=0, *args, **kwargs):
