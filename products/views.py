@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import DetailView
+
 from baskets.models import Basket
 
 import json
@@ -118,7 +120,12 @@ def products(request, cat_id=0, page=1):
 
 	return render(request, "products.html", context)
 
-# Предварительная настройка - добавить эти параметры в функцию, чтобы избежать ошибок при
-# обработке адресов с категориями
-# def products(request, pk=None):
-#     print(pk)
+class ProductDetail(DetailView):
+	model = Product
+	template_name = 'products/producrs_detail.html'
+	context_object_name = 'product'
+
+	def get_context_data(self, category_id=0, *args, **kwargs):
+		context = super().get_context_data()
+		context['categories'] = ProductsCategory.objects.all()
+		return context
