@@ -10,36 +10,61 @@
 
 
 {% block content %}
-    <div class="container mt-5">
-    <div class="row">
-        <div class="card mb-6 col-lg-6">
-            <div class="col-md-6 mb-4">
-                <div class="card h-100">
-                    <a href="#">
-                        <img class="card-img-top"
-                             src="{% if product.image %}{{ product.image.url }}{% endif %}"
-                                {# src="{% static product.image %}"#}
-                             alt="">
-                    </a>
-                </div>
-                <div class="card mb-6 col-lg-6">
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <a href="#">{{ product.name }}</a>
-                        </h4>
-                        <h5>{{ product.price }}</h5>
-                        <p class="card-text">{{ product.description }}</p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <button name={{ product.id }} class="btn btn-outline-success
-                        ">Отправить в корзину</button>
-                    </div>
-                </div>
+
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+            <a href="#">
+                <img class="card-img-top"
+                     src="{% if product.image %}{{ product.image.url }}{% endif %}"
+                        {# src="{% static product.image %}"#}
+                     alt="">
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="#">{{ product.name }}</a>
+                </h4>
+                <h5>{{ product.price }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+            </div>
+            <div class="card-footer text-center">
+                <button name={{ product.id }} class="btn btn-outline-success
+                ">Отправить в корзину</button>
             </div>
         </div>
     </div>
+
+
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if not products_list.has_previous %} disabled {% endif %}">
+                <a class="page-link" href="{% if products_list.has_previous %}
+                                {% url 'products:page' cat_id products_list.previous_page_number %}
+                                {% else %} # {% endif %}" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            {% for page in products_list.paginator.page_range %}
+                {% if page <= products_list.number|add:2 and page >= products_list.number|add:-2 %}
+                    <li class="page-item"><a class="page-link"
+                                             href="{% url 'products:page' cat_id page %}">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            <li class="page-item {% if not products_list.has_next %} disabled {% endif %}">
+                <a class="page-link" href="{% if products_list.has_next %}
+                                {% url 'products:page' cat_id products_list.next_page_number %}
+                                {% else %} # {% endif %}">Next</a>
+            </li>
+        </ul>
+    </nav>
     </div>
     </div>
+    </div>
+    <!-- /.container -->
 
     <script src={% static 'js/product_to_basket.js' %}></script>
 {% endblock %}
