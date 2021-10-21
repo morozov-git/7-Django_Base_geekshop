@@ -11,36 +11,36 @@
 
 {% block content %}
     <div class="container mt-5">
-<div class="card-group">
-<div class="card">
-    <div class="card-body">
-        <div class="card h-100">
-            <a href="#">
-                <img class="card-img-top"
-                     src="{% if product.image %}{{ product.image.url }}{% endif %}"
-                        {# src="{% static product.image %}"#}
-                     alt="">
-            </a>
-        </div>
-    </div>
-</div>
-<div class="card">
-        <div class="card-body">
-            <div class="card-body">
-                <h4 class="card-title">
-                    <a href="#">{{ product.name }}</a>
-                </h4>
-                <h5>{{ product.price }}</h5>
-                <p class="card-text">{{ product.description }}</p>
+        <div class="card-group">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card h-100">
+                        <a href="#">
+                            <img class="card-img-top"
+                                 src="{% if product.image %}{{ product.image.url }}{% endif %}"
+                                    {# src="{% static product.image %}"#}
+                                 alt="">
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="card-footer text-center">
-                <button name={{ product.id }} class="btn btn-outline-success
-                ">Отправить в корзину</button>
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a href="#">{{ product.name }}</a>
+                        </h4>
+                        <h5>{{ product.price }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button name={{ product.id }} class="btn btn-outline-success
+                        ">Отправить в корзину</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-</div>
-</div>
     </div>
     </div>
     </div>
@@ -48,7 +48,7 @@
     <!-- /.container -->
 
     {% block footer %}
-{% endblock %}
+    {% endblock %}
 
     <script src={% static 'js/product_to_basket.js' %}></script>
 {% endblock %}
