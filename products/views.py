@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.cache import cache_page
 from django.views.generic import DetailView
 
 from baskets.models import Basket
@@ -101,6 +102,7 @@ def index(request):
 	return render(request, "index.html", context)
 
 
+@cache_page(3600)
 def products(request, cat_id=0, page=1):
 	# categories_list = ProductsCategory.objects.all()
 	# baskets = basket_icon(request) # после подключения контекстного процессора можно отключить
