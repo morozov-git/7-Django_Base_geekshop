@@ -1,4 +1,4 @@
-window.onload = function () {
+// window.onload = function () {
     $('.row').on('click', 'a[class="btn btn-outline-success"]', function (){
         let t_href = event.target;
         console.log(t_href);
@@ -14,4 +14,4 @@ window.onload = function () {
     // Event.preventDefault();
     })
 
-}
+// }

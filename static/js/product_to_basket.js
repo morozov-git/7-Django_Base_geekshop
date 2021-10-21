@@ -1,4 +1,4 @@
-
+window.onload = function () {
 
     $('.product_list').on('click', 'button[class="btn btn-outline-success"]', function (){
         let but_href = event.target;
@@ -12,3 +12,5 @@
             },
         });
     })
+
+}
