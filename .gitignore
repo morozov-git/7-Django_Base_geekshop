@@ -2,3 +2,18 @@
 /venv/
 /.idea/
 /db.sqlite3
+/products/templates/test.html
+/products/templates/products_(before_base).html
+/static/js/current_date_time.js
+/products/views_test.py
+/geekshop/urls_test.py
+/.env
+/users/vk_settings.txt
+/python
+/db 2.sqlite3
+/baskets/migrations/
+/ordersapp/migrations/
+/products/migrations/
+/users/migrations/
+/ordersapp/migrations/
+/visualisation.png

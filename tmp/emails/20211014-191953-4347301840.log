@@ -1,0 +1,15 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?b?0JTQu9GPINCw0LrRgtC40LLQsNGG0LjQuCDRg9GH0LXRgtC90L7QuSDQt9Cw0L8=?=
+ =?utf-8?b?0LjRgdC4IHRlc3QxMjMxMjMg0L/QtdGA0LXQudC00LjRgtC1INC/0L4g0YHRgdGL?=
+ =?utf-8?b?0LvQutC1?=
+From: django@geekshop.local
+To: test123123@mail.ru
+Date: Thu, 14 Oct 2021 19:19:53 -0000
+Message-ID: <163423919320.20903.10254417024405768968@MacBook.local>
+
+Для подтверждения учетной записи test123123 на портале http://localhost:8000 
+перейдите по ссылке: http://localhost:8000/users/verify/test123123@mail.ru/247e11017fa51f0dcecd8d54e584f696b564c44e/
+-------------------------------------------------------------------------------
