@@ -10,6 +10,8 @@ from users.models import User
 from products.models import Product, ProductsCategory
 from .forms import UserAdminRegisterForm, UserAdminProfileForm, ProductEditForm, CategoryEditForm, \
 	CategoryUpdateFormAdmin
+from django.db import connection
+from django.db.models import F
 from django.http import JsonResponse
 
 
