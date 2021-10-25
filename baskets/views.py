@@ -7,7 +7,8 @@ from baskets.models import Basket
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.http import JsonResponse
-
+from django.db import connection
+from django.db.models import F
 
 @login_required
 def baskets_add(request, id):
@@ -19,12 +20,16 @@ def baskets_add(request, id):
 
 	else:
 		baskets = baskets.first()
-		baskets.quantity += 1
+		# baskets.quantity += 1
+		baskets.quantity = F('quantity') + 1
 		baskets.save()
 		# return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-		baskets = Basket.objects.filter(user=request.user)
-		context = {'baskets': baskets}
-		result_icon = render_to_string('baskets/baskets_icon.html', context)
+		# baskets = Basket.objects.filter(user=request.user)
+		update_queries = list(filter(lambda x: 'UPDATE' in x['sql'], connection.queries))
+		print(f'basket_add {update_queries}')
+		# context = {'baskets': baskets}
+		# result_icon = render_to_string('baskets/baskets_icon.html', context)
+		result_icon = render_to_string('baskets/baskets_icon.html', update_queries)
 		return JsonResponse({
 			'result_icon': result_icon
 			})

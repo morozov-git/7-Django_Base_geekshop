@@ -8,10 +8,19 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from users.models import User
 from products.models import Product, ProductsCategory
-from .forms import UserAdminRegisterForm, UserAdminProfileForm, ProductEditForm, CategoryEditForm
+from .forms import UserAdminRegisterForm, UserAdminProfileForm, ProductEditForm, CategoryEditForm, \
+	CategoryUpdateFormAdmin
 from django.http import JsonResponse
 
+
 # Create your views here.
+
+def db_profile_by_type(prefix, type, queries):
+	update_queries = list(filter(lambda x: type in x['sql'], queries))
+	print(f'db_profile {type} for {prefix}:')
+	[print(query['sql']) for query in update_queries]
+
+
 @user_passes_test(lambda u: u.is_superuser)
 def index(request):
 	return render(request, 'admins/admin.html')
@@ -85,6 +94,7 @@ class UserActivateView(UserDeleteView):
 			self.object.save()
 		return HttpResponseRedirect(self.get_success_url())
 
+
 class ProductsListView(ListView):
 	model = Product
 	template_name = 'admins/admin-products-read.html'
@@ -93,6 +103,7 @@ class ProductsListView(ListView):
 		context = super(ProductsListView, self).get_context_data(**kwargs)
 		context['title'] = 'GeekShop-Products'
 		return context
+
 
 class ProductUpdateView(UpdateView):
 	model = Product
@@ -109,6 +120,7 @@ class ProductUpdateView(UpdateView):
 	def dispatch(self, request, *args, **kwargs):
 		return super(ProductUpdateView, self).dispatch(request, *args, **kwargs)
 
+
 class ProductCreateView(CreateView):
 	model = Product
 	template_name = 'admins/admin-products-create.html'
@@ -123,6 +135,7 @@ class ProductCreateView(CreateView):
 	@method_decorator(user_passes_test(lambda u: u.is_superuser))
 	def dispatch(self, request, *args, **kwargs):
 		return super(ProductCreateView, self).dispatch(request, *args, **kwargs)
+
 
 class ProductDeleteView(DeleteView):
 	model = Product
@@ -143,6 +156,7 @@ class CategoryListView(ListView):
 		context['title'] = 'GeekShop-Category'
 		return context
 
+
 class CategoryUpdateView(UpdateView):
 	model = ProductsCategory
 	template_name = 'admins/admin-category-update-delete.html'
@@ -157,6 +171,7 @@ class CategoryUpdateView(UpdateView):
 	@method_decorator(user_passes_test(lambda u: u.is_superuser))
 	def dispatch(self, request, *args, **kwargs):
 		return super(CategoryUpdateView, self).dispatch(request, *args, **kwargs)
+
 
 class CategoryCreateView(CreateView):
 	model = ProductsCategory
@@ -173,6 +188,7 @@ class CategoryCreateView(CreateView):
 	def dispatch(self, request, *args, **kwargs):
 		return super(CategoryCreateView, self).dispatch(request, *args, **kwargs)
 
+
 class CategoryDeleteView(DeleteView):
 	model = ProductsCategory
 	template_name = 'admins/admin-category-update-delete.html'
@@ -181,3 +197,19 @@ class CategoryDeleteView(DeleteView):
 	@method_decorator(user_passes_test(lambda u: u.is_superuser))
 	def dispatch(self, request, *args, **kwargs):
 		return super(CategoryDeleteView, self).dispatch(request, *args, **kwargs)
+
+
+class CategoryUpdateView(UpdateView):
+	model = ProductsCategory
+	template_name = 'admins/admin-category-update-delete.html'
+	success_url = reverse_lazy('admins:admin_category')
+	form_class = CategoryUpdateFormAdmin
+
+	def form_valid(self, form):
+		if 'discount' in form.cleaned_data:
+			discount = form.cleaned_data['discount']
+			if discount:
+				print(f'применяется скидка {discount} % к товарам категории {self.object.name}')
+				self.object.product_set.update(price=F('price') * (1 - discount / 100))
+				db_profile_by_type(self.__class__, 'UPDATE', connection.queries)
+		return HttpResponseRedirect(self.get_success_url())
