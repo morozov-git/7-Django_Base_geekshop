@@ -18,14 +18,15 @@ from products.views import products
 
 from django.conf import settings
 from django.conf.urls.static import static
-from users.views import login, register, logout, edit, profile, verify
-
+from users.views import register, logout, edit, profile, verify, LoginListView
+# from users.views import login,
 app_name = "users"
 
 
 
 urlpatterns = [
-    path('login/', login, name='login'),
+    path('login/', LoginListView.as_view(), name='login'),
+    # path('login/', login, name='login'),
     path('register/', register, name='register'),
     path('profile/', profile, name='profile'),
     path('logout/', logout, name='logout'),
