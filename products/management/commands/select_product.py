@@ -6,7 +6,7 @@ from admins.views import db_profile_by_type
 
 class Command(BaseCommand):
 	def handle(self, *args, **options):
-		products = Product.objects.filter(Q(category__name='Обувь') | Q(category__name='Подарки'))
+		products = Product.objects.filter(Q(category__name='Обувь') | Q(category__name='Подарки')).select_related()
 		print(products)
 
 		db_profile_by_type('learn db', '', connection.queries)
