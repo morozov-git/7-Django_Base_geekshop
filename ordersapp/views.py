@@ -72,7 +72,8 @@ class OrderCreate(CreateView):
 			if orderitems.is_valid():
 				orderitems.instance = self.object
 				orderitems.save()
-				ject.get_total_sum_quantity() == 0:
+
+			# if self.object.get_total_sum_quantity() == 0:
 			if self.object.get_total_sum_quantity()['total_sum'] == 0:
 				self.object.delete()
 			#####
@@ -80,7 +81,6 @@ class OrderCreate(CreateView):
 			basket_items_del = Basket.objects.filter(user=self.request.user)
 			basket_items_del.delete()
 			#####
-		# if self.ob
 		return super().form_valid(form)
 
 
