@@ -72,15 +72,15 @@ class OrderCreate(CreateView):
 			if orderitems.is_valid():
 				orderitems.instance = self.object
 				orderitems.save()
-				#####
-				# Для удаления корзины только во время сохранения заказа
-				basket_items_del = Basket.objects.filter(user=self.request.user)
-				basket_items_del.delete()
-				#####
-			# if self.object.get_total_sum_quantity() == 0:
-			# if self.object.get_total_sum_quantity()['total_sum'] == 0:
-			# 	self.object.delete()
-
+				ject.get_total_sum_quantity() == 0:
+			if self.object.get_total_sum_quantity()['total_sum'] == 0:
+				self.object.delete()
+			#####
+			# Для удаления корзины только во время сохранения заказа
+			basket_items_del = Basket.objects.filter(user=self.request.user)
+			basket_items_del.delete()
+			#####
+		# if self.ob
 		return super().form_valid(form)
 
 
