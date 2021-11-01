@@ -78,8 +78,8 @@ class OrderCreate(CreateView):
 				basket_items_del.delete()
 				#####
 			# if self.object.get_total_sum_quantity() == 0:
-			if self.object.get_total_sum_quantity()['total_sum'] == 0:
-				self.object.delete()
+			# if self.object.get_total_sum_quantity()['total_sum'] == 0:
+			# 	self.object.delete()
 
 		return super().form_valid(form)
 
